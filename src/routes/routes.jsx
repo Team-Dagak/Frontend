@@ -3,7 +3,7 @@ import Home from '../views/homeView';
 const routes = [
     {
         path : '/',
-        element : <Home />,
+        component : Home,
         name : 'Home',
     }
 ]
