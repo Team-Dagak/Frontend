@@ -1,17 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Carousel from './component/carousel/recommendCarousel.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
+import React from 'react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { BrowserRouter } from 'react-router-dom';
 
+
+import Router from './routes';
+
+const queryClient = new QueryClient();
+
+const App = () => {
   return (
-    <>
-    <Carousel />
-    </>
-  )
-}
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+      <div className='app'>
+        <Router />
+      </div>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
-export default App
+
+export default App;
