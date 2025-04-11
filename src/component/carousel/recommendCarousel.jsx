@@ -20,11 +20,13 @@ const emblaContainer = css`
 `;
 
 const emblaSlide = css`
-  width: 144px;
-  height: 90px;
+  min-width: 144px;
+  min-height: 90px;
+  width: 100%;
+  height: 100%;
   margin: 0 10px 0 0;
   background-color: #f4f4f4;
-  border-radius: 8px;
+  border-radius: 10px;
   `;
 
 const textTitle = css`
@@ -65,6 +67,16 @@ const data = [
   {
     id: 3,
     recommendation: 'recommend 3',
+    explanation: 'explanation 3 ipsem loran dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  },
+  {
+    id: 4,
+    recommendation: 'recommend 4',
+    explanation: 'explanation 3 ipsem loran dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  },
+  {
+    id: 5,
+    recommendation: 'recommend 5',
     explanation: 'explanation 3 ipsem loran dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
 ];

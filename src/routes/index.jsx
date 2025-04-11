@@ -1,9 +1,11 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import routes from './routes';
+import Article from '../component/article/article';
 
 const Router = () => {
   return (
+    <Article>
       <Routes>
         {routes.map((route) => (
           <Route
@@ -13,6 +15,7 @@ const Router = () => {
             />
         ))}
       </Routes>
+    </Article>
   );
 };
 
