@@ -2,6 +2,7 @@
 import React from 'react';
 import { css, Global } from '@emotion/react';
 import Carousel from '../component/carousel/recommendCarousel';
+import CandyBox from '../component/candyBox/candyBox';
 
 const container = css`
     position: relative;
@@ -41,6 +42,7 @@ return(
     <div css={calender}>
         calender position
     </div>
+    <CandyBox/>
     <div css={container}>
         목표를 세워 볼까요?
         <div css={mt8}>
@@ -53,6 +55,7 @@ return(
     <div css={[container, task1]}>
         큰목표 작은목표 2
     </div>
+    
     </>
 )
 }
