@@ -1,0 +1,232 @@
+.react-calendar {
+  background-color: white;
+  /* -webkit-font-smoothing: antialiased; */
+}
+
+.react-calendar__tile {
+  border: 1px solid #30343b;
+  border-radius: 8px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 329px;
+  height: 54px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.greeting {
+  width: 229px;
+  height: 54px;
+  line-height: 25px;
+  text-align: left;
+  font-size: 15px;
+  border: 1px solid white;
+}
+
+/* 월별 이동 버튼(커스텀) ==================================*/
+.custom-navigation {
+  display: flex;
+  gap: 8px;
+  width: 56px;
+  height: 24px;
+}
+
+.custom-nav-button {
+  min-width: 24px;
+  min-height: 24px;
+  background: none;
+  border: none;
+  color: #5e6573;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+}
+
+.custom-nav-button:hover {
+  color: #ff610d;
+}
+/* ==================================================== */
+
+/* 월별 이동 버튼(라이브러리 기본제공) */
+.react-calendar__navigation {
+  display: flex;
+  width: 90px;
+  height: 30px;
+  /* margin-bottom: 1em; */
+  margin-left: auto;
+  display: none;
+}
+
+/* 이전/다음 달 이동 버튼 */
+.react-calendar__navigation__arrow {
+  min-width: 24px;
+  min-height: 24px;
+  background: none;
+  color: #5e6573;
+  font-weight: bold;
+  margin: 3px;
+}
+
+/* 불필요한 날짜 이동 버튼 숨기기 */
+.react-calendar__navigation__label,
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+/* 달력 레이아웃 정렬 (인삿말, 버튼 제외) */
+.react-calendar__month-view {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+/* 요일 컨태이너 */
+.react-calendar__month-view__weekdays {
+  width: 329px;
+  height: 32px;
+  margin-bottom: 16px;
+}
+
+/* 요일 스타일 */
+.react-calendar__month-view__weekdays__weekday {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 32px;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 1;
+  margin: 0px;
+}
+
+/* 휴일 빨간색으로 표시 (확인해보고 사용 결정)*/
+.react-calendar__month-view__days__day--weekend {
+  color: #d10000;
+}
+
+/* 날짜 text-deco 제거 */
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+}
+
+/* 요일 색 변경 */
+abbr[title="Sunday"],
+abbr[title="Monday"],
+abbr[title="Tuesday"],
+abbr[title="Wednesday"],
+abbr[title="Thursday"],
+abbr[title="Friday"],
+abbr[title="Saturday"] {
+  color: #5e6573;
+}
+
+/* 날짜 담긴 부분 */
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr);
+  place-items: center;
+  width: 329px;
+  height: auto;
+  gap: 4px;
+  /* border: 1px solid #0541f5; */
+}
+
+/* 각 날짜들 */
+.react-calendar__month-view__days__day {
+  /* border: 1px solid #30343b; */
+  background-color: #ffffff;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+/* 각 날짜들 (버튼) */
+.react-calendar button {
+  border: 1px solid #e6e7ea;
+  /* background-color: #ffffff; */
+  border-radius: 8px;
+}
+
+/* 날짜 선택시 border, 글자색 변경 */
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  border: 1px solid #ff610d;
+  color: #ff610d;
+}
+
+/* 완료된 날짜 */
+.react-calendar__tile.done-tile {
+  background-color: #1a1c20;
+  border: 1px solid #1a1c20;
+  color: white;
+}
+
+/* 미완료된 날짜 */
+.incomplete-tile {
+  background-color: #e6e7ea !important;
+  color: #9198a6 !important;
+}
+
+/* 오늘 날짜 */
+.react-calendar__tile.today-tile {
+  background-color: #ff610d;
+  border: 1px solid #ff610d;
+  color: rgb(0, 0, 0) !important;
+}
+
+/* 캘린더 하단 색깔 가이드 ==================================*/
+.color-guide {
+  display: flex;
+  width: 329px; /* .react-calendar__month-view__days와 동일한 너비 */
+  height: 18px;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin: 16px 22px 31px;
+}
+
+.color-guide-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 16px;
+  color: #5e6573;
+  width: 55px;
+  height: 18px;
+}
+
+.color-guide-item:nth-child(3) {
+  width: 40px;
+}
+
+.color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.color-box.incomplete {
+  background-color: #ffffff;
+  border: 1px solid #e6e7ea;
+}
+
+.color-box.done {
+  background-color: #1a1c20;
+}
+
+.color-box.today {
+  background-color: #ff610d;
+}
+
+.color-guide .color-guide-item .label {
+  font-size: 7px;
+}
+/* ==================================================== */
