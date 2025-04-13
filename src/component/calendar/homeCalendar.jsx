@@ -6,6 +6,9 @@ import "./CalendarStyle.css"; // 커스텀 CSS
 // todo
 // 목표 완료되면 날짜대신 임티 보이게
 // 폰트 수정
+// 일요일만 빨간색으로
+// 색상 다시 수정
+// 디테일한 부분 검토 후 잡기
 
 function HomeCalendar() {
   //선택한 날짜를 상태로 저장
@@ -28,7 +31,7 @@ function HomeCalendar() {
         },
       ],
     },
-    "2025-04-03": {
+    "2025-04-12": {
       status: "incomplete",
       goals: [
         {

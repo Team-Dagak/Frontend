@@ -54,27 +54,8 @@
 }
 /* ==================================================== */
 
-/* 월별 이동 버튼(라이브러리 기본제공) */
-.react-calendar__navigation {
-  display: flex;
-  width: 90px;
-  height: 30px;
-  /* margin-bottom: 1em; */
-  margin-left: auto;
-  display: none;
-}
-
-/* 이전/다음 달 이동 버튼 */
-.react-calendar__navigation__arrow {
-  min-width: 24px;
-  min-height: 24px;
-  background: none;
-  color: #5e6573;
-  font-weight: bold;
-  margin: 3px;
-}
-
-/* 불필요한 날짜 이동 버튼 숨기기 */
+/* 기본 연/월 이동 버튼 숨기기 */
+.react-calendar__navigation,
 .react-calendar__navigation__label,
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {
@@ -137,12 +118,10 @@ abbr[title="Saturday"] {
   width: 329px;
   height: auto;
   gap: 4px;
-  /* border: 1px solid #0541f5; */
 }
 
 /* 각 날짜들 */
 .react-calendar__month-view__days__day {
-  /* border: 1px solid #30343b; */
   background-color: #ffffff;
   width: 44px;
   height: 44px;
@@ -152,7 +131,6 @@ abbr[title="Saturday"] {
 /* 각 날짜들 (버튼) */
 .react-calendar button {
   border: 1px solid #e6e7ea;
-  /* background-color: #ffffff; */
   border-radius: 8px;
 }
 
@@ -172,8 +150,8 @@ abbr[title="Saturday"] {
 
 /* 미완료된 날짜 */
 .incomplete-tile {
-  background-color: #e6e7ea !important;
-  color: #9198a6 !important;
+  background-color: #e6e7ea;
+  color: #9198a6;
 }
 
 /* 오늘 날짜 */
@@ -183,7 +161,15 @@ abbr[title="Saturday"] {
   color: rgb(0, 0, 0) !important;
 }
 
-/* 캘린더 하단 색깔 가이드 ==================================*/
+/* 현재 달에 포함되지 않는 날짜 스타일 ======================== */
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #9198a6;
+  background-color: #e6e7ea;
+  border: 1px solid #e6e7ea;
+}
+/* ==================================================== */
+
+/* 캘린더 하단 색깔 가이드 ================================== */
 .color-guide {
   display: flex;
   width: 329px; /* .react-calendar__month-view__days와 동일한 너비 */
