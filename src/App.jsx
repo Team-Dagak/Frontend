@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/** @jsxImportSource @emotion/react */
+import React from "react";
+import { css, Global } from "@emotion/react";
+import TodayTasks from "./component/todoList/todayTasks";
 
-function App() {
-  const [count, setCount] = useState(0)
+const container = css`
+  position: relative;
+  width: 100% - 16px;
+  background-color: #ffffff;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 10px;
+`;
 
+const calender = css`
+  position: relative;
+  min-width: 100% - 16px;
+  background-color: #ffffff;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 10px;
+  // 어떻게 할건지 회의 후 수정----
+  height: auto;
+  min-height: 450px;
+  // -------------------
+  items-align: center;
+  justify-content: center;
+  text-align: center;
+  content-align: center;
+  display: flex;
+`;
+const mt8 = css`
+  margin-top: 8px;
+`;
+
+const task1 = css`
+  height: 127px;
+`;
+
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div css={[container, task1]}><TodayTasks /></div>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
