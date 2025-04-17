@@ -4,6 +4,8 @@ import { css, Global } from "@emotion/react";
 import Carousel from "../component/carousel/recommendCarousel";
 import HomeCalendar from "../component/calendar/homeCalendar";
 import Calendar from "react-calendar";
+import todayTasks from "../component/todoList/todayTasks"
+import TodayTasks from "../component/todoList/todayTasks";
 
 const container = css`
   position: relative;
@@ -52,8 +54,7 @@ const homeView = () => {
           <Carousel />
         </div>
       </div>
-      <div css={[container, task1]}>큰목표 작은목표 1</div>
-      <div css={[container, task1]}>큰목표 작은목표 2</div>
+      <div css={[container]}><TodayTasks /></div>
     </>
   );
 };
