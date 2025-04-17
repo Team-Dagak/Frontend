@@ -173,18 +173,18 @@ function HomeCalendar() {
         calnderType="US" // 미국식 달력
       />
       {/* 캘린더 하단 색상가이드 */}
-      <div class="color-guide">
-        <div class="color-guide-item">
-          <span class="color-box incomplete"></span>
-          <span class="label">미완료</span>
+      <div className="color-guide">
+        <div className="color-guide-item">
+          <span className="color-box incomplete"></span>
+          <span className="label">미완료</span>
         </div>
-        <div class="color-guide-item">
-          <span class="color-box done"></span>
-          <span class="label">완료</span>
+        <div className="color-guide-item">
+          <span className="color-box done"></span>
+          <span className="label">완료</span>
         </div>
-        <div class="color-guide-item">
-          <span class="color-box today"></span>
-          <span class="label">오늘</span>
+        <div className="color-guide-item">
+          <span className="color-box today"></span>
+          <span className="label">오늘</span>
         </div>
       </div>
     </div>
