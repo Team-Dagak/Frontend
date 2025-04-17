@@ -143,7 +143,7 @@ function HomeCalendar() {
       }}
     >
       <div className="header-container">
-        <div class="greeting">
+        <div className="greeting">
           <h2 style={{ textAlign: "left" }}>안녕하세요:&#41;</h2>
           <h2 style={{ textAlign: "left" }}>
             오늘은 <span style={{ color: "#FF620D" }}>{getFormattedMonthDay(new Date())}</span>
