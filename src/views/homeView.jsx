@@ -3,6 +3,7 @@ import React from "react";
 import { css, Global } from "@emotion/react";
 import Carousel from "../component/carousel/recommendCarousel";
 import HomeCalendar from "../component/calendar/homeCalendar";
+import Calendar from "react-calendar";
 
 const container = css`
   position: relative;
@@ -11,6 +12,7 @@ const container = css`
   margin: 8px;
   padding: 8px;
   border-radius: 10px;
+  
 `;
 
 const calender = css`
