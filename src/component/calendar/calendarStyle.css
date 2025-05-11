@@ -1,3 +1,10 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css");
+
+/* .css-1qbfxy9 {
+  font-family: "Pretendard Variable";
+  font-weight: 100;
+} */
+
 .react-calendar {
   background-color: white;
   /* -webkit-font-smoothing: antialiased; */
@@ -18,6 +25,8 @@
   margin-bottom: 20px;
   margin-left: 16px;
   margin-right: 16px;
+  font-family: "Pretendard Variable";
+  font-weight: 100;
 }
 
 .greeting {
@@ -90,9 +99,9 @@
 }
 
 /* 휴일 빨간색으로 표시 (확인해보고 사용 결정)*/
-.react-calendar__month-view__days__day--weekend {
+/* .react-calendar__month-view__days__day--weekend {
   color: #d10000;
-}
+} */
 
 /* 날짜 text-deco 제거 */
 .react-calendar__month-view__weekdays__weekday abbr {
@@ -186,10 +195,11 @@ abbr[title="Saturday"] {
   color: #5e6573;
   width: 55px;
   height: 18px;
+  margin-left: 8px;
 }
 
 .color-guide-item:nth-child(3) {
-  width: 40px;
+  width: 50px;
 }
 
 .color-box {
@@ -213,6 +223,6 @@ abbr[title="Saturday"] {
 }
 
 .color-guide .color-guide-item .label {
-  font-size: 7px;
+  font-size: 12px;
 }
 /* ==================================================== */
