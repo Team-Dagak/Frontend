@@ -307,4 +307,4 @@ ${t}`,FD=Object.getOwnPropertyDescriptor(Function.prototype,"toString"),jD=Objec
     background-color: #f4f4f4;
     overflow-x: hidden;
     }
-`,_2=new yP,F2=()=>b.jsx(vP,{client:_2,children:b.jsxs(zT,{children:[b.jsx(UE,{styles:N2}),b.jsx("div",{className:"app",children:b.jsx(R2,{})})]})});yw(document.getElementById("root")).render(b.jsx(x.StrictMode,{children:b.jsx(F2,{})}));
+`,_2=new yP,F2=()=>b.jsx(vP,{client:_2,children:b.jsxs(zT,{basename:"/Frontend",children:[b.jsx(UE,{styles:N2}),b.jsx("div",{className:"app",children:b.jsx(R2,{})})]})});yw(document.getElementById("root")).render(b.jsx(x.StrictMode,{children:b.jsx(F2,{})}));
