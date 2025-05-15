@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
+import DeletePopup from "./deletePopup";
 
 export default function SwipeToDeleteItem({ children, onDelete }) {
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [isSwiped, setIsSwiped] = useState(false);
+   const [showPopup, setShowPopup] = useState(false);
 
   // 삭제 버튼 투명도 (왼쪽으로 갈수록 진해짐)
   const opacity = useTransform(x, [-80, 0], [1, 0]);
@@ -27,12 +29,26 @@ export default function SwipeToDeleteItem({ children, onDelete }) {
     setIsSwiped(false);
   };
 
+  const handleDeleteClick = () => {
+    setShowPopup(true);
+  };
+
+const handleConfirmDelete = () => {
+    setShowPopup(false);
+    onDelete();    
+};
+
+const handleCancelDelete = () => {
+    setShowPopup(false);
+}
+
   return (
+    <>
     <Wrapper>
       <DeleteButton
         as={motion.button}
         style={{ opacity }}
-        onClick={onDelete}
+        onClick={handleDeleteClick}
         initial={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
@@ -50,6 +66,14 @@ export default function SwipeToDeleteItem({ children, onDelete }) {
         {children}
       </MotionItem>
     </Wrapper>
+
+    {showPopup && (
+        <DeleteConfirmModal
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        />
+    )}
+    </>
   );
 }
 
@@ -77,7 +101,7 @@ const DeleteButton = styled(motion.button)`
 
 const MotionItem = styled(motion.div)`
   background-color: white;
-  padding: 1rem;
+  padding: 8px;
   border-radius: 8px;
   position: relative;
   z-index: 1;

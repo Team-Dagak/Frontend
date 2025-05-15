@@ -64,14 +64,14 @@ const TaskCategoryWrapper = styled.div`
   background: #f7f7f8;
   border-radius: 1rem;
   padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 15px;
   overflow-x: hidden;
 `;
 
 const CategoryTitle = styled.h2`
   font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const TaskItem = styled.div`
