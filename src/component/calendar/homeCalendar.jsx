@@ -170,7 +170,9 @@ function HomeCalendar() {
         formatShortWeekday={(locale, date) =>
           date.toLocaleDateString("en-US", { weekday: "short" }).charAt(0)
         } //요일의 첫 글자만 표시
+
         calendarType="US" // 미국식 달력
+
       />
       {/* 캘린더 하단 색상가이드 */}
       <div className="color-guide">
