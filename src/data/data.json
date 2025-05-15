@@ -1,0 +1,22 @@
+{
+    "tasks": [
+        {
+        "taskType": "opic",
+        "items": [
+            { "task": "기출문제 풀기", "clear": false },
+            { "task": "모의고사 준비하기", "clear": false },
+            { "task": "모의고사 준비하기", "clear": false }
+        ],
+        "color" : "#00FF00"
+        },
+        {
+        "taskType": "정보처리기사",
+        "items": [
+            { "task": "기출문제 풀기", "clear": false },
+            { "task": "모의고사 준비하기", "clear": false },
+            { "task": "모의고사 준비하기", "clear": false }
+        ],
+        "color" : "#FF610D"
+        }
+    ]
+}

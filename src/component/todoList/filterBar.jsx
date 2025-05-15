@@ -1,16 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-
-export default function FilterBar({ total, opic, 기사 }) {
-  return (
-    <Bar>
-      <FilterButton active>전체 {total}건</FilterButton>
-      <FilterButton># opic {opic}건</FilterButton>
-      <FilterButton># 정보처리기사 {기사}건</FilterButton>
-      <ToggleBox />
-    </Bar>
-  );
-}
+import { useEffect } from "react";
+import { useFilterStore } from '../../store/states'
+import data from '../../data/data.json'
+import useEmblaCarousel from 'embla-carousel-react';
+import { css } from '@emotion/react';
 
 const Bar = styled.div`
   display: flex;
@@ -28,11 +22,56 @@ const FilterButton = styled.button`
   font-weight: 500;
   border: none;
   cursor: pointer;
+  flex-shrink: 0;
 `;
 
-const ToggleBox = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
-  background: #d9d9d9;
-  border-radius: 0.25rem;
+const embla = css`
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
+const emblaContainer = css`
+  display: flex;
+  width: 100%;
+  margin: 0;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+`;
+
+
+export default function FilterBar() {
+  const {type, setType} = useFilterStore();
+  const [emblaRef, emblaApi] = useEmblaCarousel({loop: false, align: 'start'});
+  
+  useEffect(() => {
+    if (emblaApi) {
+      console.log(emblaApi.slideNodes());
+    }
+  }, [emblaApi]);
+
+  const handleClick = (key) => {
+    setType(key);
+  };
+
+  return (
+    <Bar css={embla} ref={emblaRef}>
+      <div css={emblaContainer}>
+        <FilterButton active={type === "All"} onClick={() => handleClick('All')}>전체</FilterButton>
+        {data.tasks.map((item, index) => (
+          <FilterButton
+          active = {type === item.taskType} 
+          onClick={() => handleClick(item.taskType)} 
+          key={index}
+          >
+            # {item.taskType}
+          </FilterButton>
+        ))}
+      </div>
+    </Bar>
+  );
+}
+
+
