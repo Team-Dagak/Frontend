@@ -3,13 +3,14 @@ import React from "react";
 import { css, Global } from "@emotion/react";
 import Carousel from "../component/carousel/recommendCarousel";
 import HomeCalendar from "../component/calendar/homeCalendar";
-import Calendar from "react-calendar";
-import todayTasks from "../component/todoList/todayTasks"
 import TodayTasks from "../component/todoList/todayTasks";
+import ProfileButton from "../component/profileButton/profileButton";
+import NavigationBar from "../component/bottomBar/navigationBar";
+
 
 const container = css`
   position: relative;
-  width: 100% - 16px;
+  width: calc(100% - 16px);
   background-color: #ffffff;
   margin: 8px;
   padding: 8px;
@@ -42,20 +43,23 @@ const task1 = css`
   height: 127px;
 `;
 
+const topBar = css`
+  height: 24px;
+  width: 100%;
+`
+
 const homeView = () => {
   return (
-    <>
+    <div css={{paddingBottom: "88px"}}>
       <div css={calender}>
         <HomeCalendar />
       </div>
       <div css={container}>
-        목표를 세워 볼까요?
-        <div css={mt8}>
           <Carousel />
-        </div>
       </div>
       <div css={[container]}><TodayTasks /></div>
-    </>
+      <NavigationBar/>
+    </div>
   );
 };
 

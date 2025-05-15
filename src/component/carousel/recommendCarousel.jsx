@@ -53,6 +53,12 @@ const textDescription = css`
   text-overflow: ellipsis;
 `
 
+const title = css`
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`
+
 const data = [
   {
     id: 1,
@@ -91,14 +97,17 @@ function Carousel() {
   }, [emblaApi]);
 
   return (
-    <div css={embla} ref={emblaRef}>
-      <div css={emblaContainer}>
-        {data.map((item) => (
-          <div key={item.id} css={emblaSlide}>
-            <p css={textTitle}>{item.recommendation}</p>
-            <p css={textDescription}>{item.explanation}</p>
-          </div>
-        ))}
+    <div css={{padding:"1.5rem"}}>
+    <p css={title}>목표를 세워볼까요?</p>
+      <div css={embla} ref={emblaRef}>
+        <div css={emblaContainer}>
+          {data.map((item) => (
+            <div key={item.id} css={emblaSlide}>
+              <p css={textTitle}>{item.recommendation}</p>
+              <p css={textDescription}>{item.explanation}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,22 +1,46 @@
 {
     "tasks": [
         {
-        "taskType": "opic",
-        "items": [
-            { "task": "기출문제 풀기", "clear": false },
-            { "task": "모의고사 준비하기", "clear": false },
-            { "task": "모의고사 준비하기", "clear": false }
-        ],
-        "color" : "#00FF00"
+            "taskType": "opic",
+            "items": [
+                { "task": "기출문제 풀기", "clear": true },
+                { "task": "모의고사 준비하기", "clear": false },
+                { "task": "모의고사 준비하기", "clear": false }
+            ],
+            "color" : "#00FF00"
         },
         {
-        "taskType": "정보처리기사",
-        "items": [
-            { "task": "기출문제 풀기", "clear": false },
-            { "task": "모의고사 준비하기", "clear": false },
-            { "task": "모의고사 준비하기", "clear": false }
-        ],
-        "color" : "#FF610D"
+            "taskType": "정보처리기사",
+            "items": [
+                { "task": "기출문제 풀기", "clear": false },
+                { "task": "모바일 CBT", "clear": true },
+                { "task": "모의고사 준비하기", "clear": false }
+            ],
+            "color" : "#FF610D"
+        },
+        {
+            "taskType": "JLPT",
+            "items": [
+                { "task": "한권으로 끝내는 JLPT 1장", "clear":false}
+            ],
+            "color" : "#ab90ec"
+        },
+        {
+            "taskType": "TOEIC",
+            "items": [
+                { "task": "영단어 100개", "clear":false},
+                { "task": "스피킹", "clear":true}
+            ],
+            "color" : "#1132d0"
+        },
+        {
+            "taskType": "다이어트",
+            "items": [
+                { "task": "아침 요거트+블루베리", "clear": true},
+                { "task": "점심 닭가슴살+밥", "clear": false},
+                { "task": "하루 30분 운동", "clear": true}
+            ],
+            "color" : "#f131d2"
         }
     ]
 }
