@@ -68,7 +68,7 @@ const handleCancelDelete = () => {
     </Wrapper>
 
     {showPopup && (
-        <DeleteConfirmModal
+        <DeletePopup
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
         />

@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename="/Frontend">
       <Global styles={globalStyle} />
       <div className='app'>
         <Router />
