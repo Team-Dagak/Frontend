@@ -5,7 +5,6 @@ import FilterBar from "./filterBar";
 import { useTaskStore, useFilterStore } from "../../store/states";
 import SwipeToDeleteItem from "../swipeToDelete/swipeToDelete";
 
-
 export default function TodayTasks() {
   const tasks = useTaskStore((state) => state.tasks);
   const toggleTaskClear = useTaskStore((state) => state.toggleTaskClear);
@@ -30,18 +29,23 @@ export default function TodayTasks() {
           <TaskCategoryWrapper key={catindex} style={{ display: isVisible ? "block" : "none" }}>
             <CategoryTitle>{cat.taskType}</CategoryTitle>
             {/* Swipeable List 이용하여 Swipe 삭제 기능 구현 */}
-              {cat.items.map((taskItem, taskindex) => (
-                <SwipeToDeleteItem key={taskindex} onDelete={() => handleDelete(taskindex)}>
-                  <TaskItem key={taskindex}>
-                    <Label>{taskItem.task}</Label>
-                    <CheckBox
-                      background={taskItem.clear ? cat.color : "#1a1a1a"}
-                      onClick={() => handleClear(catindex, taskindex)}
-                      clear={taskItem.clear}
-                    />
-                  </TaskItem>
-                </SwipeToDeleteItem>
-              ))}
+            {cat.items.map((taskItem, taskindex) => (
+              <SwipeToDeleteItem
+                key={taskindex}
+                categoryIndex={catindex}
+                taskIndex={taskindex}
+                onDelete={() => handleDelete(taskindex)}
+              >
+                <TaskItem key={taskindex}>
+                  <Label>{taskItem.task}</Label>
+                  <CheckBox
+                    background={taskItem.clear ? cat.color : "#1a1a1a"}
+                    onClick={() => handleClear(catindex, taskindex)}
+                    clear={taskItem.clear}
+                  />
+                </TaskItem>
+              </SwipeToDeleteItem>
+            ))}
           </TaskCategoryWrapper>
         );
       })}

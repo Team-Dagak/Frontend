@@ -54,9 +54,11 @@ const homeView = () => {
       <div css={calender}>
         <HomeCalendar />
       </div>
-      <div css={container}>
+      {
+      //추천 캐러셀 추후 사용시 주석 해제
+      /*<div css={container}>
           <Carousel />
-      </div>
+      </div>*/}
       <div css={[container]}><TodayTasks /></div>
       <NavigationBar/>
     </div>

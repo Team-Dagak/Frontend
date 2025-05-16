@@ -7,7 +7,8 @@
                 { "task": "모의고사 준비하기", "clear": false },
                 { "task": "모의고사 준비하기", "clear": false }
             ],
-            "color" : "#00FF00"
+            "color" : "#00FF00",
+            "count" : 3
         },
         {
             "taskType": "정보처리기사",
@@ -16,14 +17,16 @@
                 { "task": "모바일 CBT", "clear": true },
                 { "task": "모의고사 준비하기", "clear": false }
             ],
-            "color" : "#FF610D"
+            "color" : "#FF610D",
+            "count" : 3
         },
         {
             "taskType": "JLPT",
             "items": [
                 { "task": "한권으로 끝내는 JLPT 1장", "clear":false}
             ],
-            "color" : "#ab90ec"
+            "color" : "#ab90ec",
+            "count" : 1
         },
         {
             "taskType": "TOEIC",
@@ -31,7 +34,8 @@
                 { "task": "영단어 100개", "clear":false},
                 { "task": "스피킹", "clear":true}
             ],
-            "color" : "#1132d0"
+            "color" : "#1132d0",
+            "count" : 2
         },
         {
             "taskType": "다이어트",
@@ -40,7 +44,8 @@
                 { "task": "점심 닭가슴살+밥", "clear": false},
                 { "task": "하루 30분 운동", "clear": true}
             ],
-            "color" : "#f131d2"
+            "color" : "#f131d2",
+            "count" : 3
         }
     ]
 }

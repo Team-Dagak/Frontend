@@ -28,4 +28,17 @@ export const useTaskStore = create((set, get) => ({
       });
       return { tasks: newTasks };
     }),
+    setTasks: (newTasks) => set({ tasks: newTasks }),
+}));
+
+export const useSelectedTaskStore = create((set) => ({
+  selectedTask: null,
+  setSelectedTask: (task) => set({ selectedTask: task }),
+  clearSelectedTask: () => set({ selectedTask: null }),
+}));
+
+export const usePopupStore = create((set) => ({
+  PopupTask: null,
+  setPopupTask: (task) => set({ PopupTask: task }),
+  clearPopupTask: () => set({ PopupTask: null }),
 }));

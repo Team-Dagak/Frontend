@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useFilterStore } from '../../store/states'
 import data from '../../data/data.json'
+import { useTaskStore } from "../../store/states";
 import useEmblaCarousel from 'embla-carousel-react';
 import { css } from '@emotion/react';
 
@@ -43,6 +44,7 @@ const emblaContainer = css`
 
 
 export default function FilterBar() {
+  const tasks = useTaskStore((state) => state.tasks)
   const {type, setType} = useFilterStore();
   const [emblaRef, emblaApi] = useEmblaCarousel({loop: false, align: 'start'});
   
@@ -56,17 +58,20 @@ export default function FilterBar() {
     setType(key);
   };
 
+  const totalCount = data.tasks.reduce((sum, task) => sum + (task.count || 0), 0);
+
   return (
     <Bar css={embla} ref={emblaRef}>
       <div css={emblaContainer}>
-        <FilterButton active={type === "All"} onClick={() => handleClick('All')}>전체</FilterButton>
-        {data.tasks.map((item, index) => (
+        <FilterButton active={type === "All"} onClick={() => handleClick('All')} css = {{fontWeight:"400"}} >전체 {totalCount}건</FilterButton>
+        {tasks.map((item, index) => (
           <FilterButton
           active = {type === item.taskType} 
           onClick={() => handleClick(item.taskType)} 
           key={index}
+          css = {{fontWeight:"400"}}
           >
-            # {item.taskType}
+            # {item.taskType}  {item.count} 건
           </FilterButton>
         ))}
       </div>

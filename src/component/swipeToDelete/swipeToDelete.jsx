@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
 import DeletePopup from "./deletePopup";
+import { useTaskStore, useSelectedTaskStore, usePopupStore } from "../../store/states";
 
-export default function SwipeToDeleteItem({ children, onDelete }) {
+export default function SwipeToDeleteItem({ children, onDelete, categoryIndex, taskIndex }) {
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [isSwiped, setIsSwiped] = useState(false);
-   const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const { setSelectedTask } = useSelectedTaskStore();
+  const tasks = useTaskStore((state) => state.tasks);
+  const setPopupTask = usePopupStore((state) => state.setPopupTask);
 
   // 삭제 버튼 투명도 (왼쪽으로 갈수록 진해짐)
   const opacity = useTransform(x, [-80, 0], [1, 0]);
@@ -30,49 +34,68 @@ export default function SwipeToDeleteItem({ children, onDelete }) {
   };
 
   const handleDeleteClick = () => {
+    setSelectedTask({ categoryIndex, taskIndex });
+    const taskData = tasks[categoryIndex].items[taskIndex];
+    const taskType = tasks[categoryIndex].taskType;
+
+    setPopupTask({
+      taskType,
+      taskName: taskData.task,
+      categoryIndex,
+      taskIndex,
+    });
+
     setShowPopup(true);
   };
 
-const handleConfirmDelete = () => {
-    setShowPopup(false);
-    onDelete();    
-};
+  const handleConfirmDelete = () => {
+    const { selectedTask, clearSelectedTask } = useSelectedTaskStore.getState();
+    const { tasks, setTasks } = useTaskStore.getState();
 
-const handleCancelDelete = () => {
+    if (selectedTask) {
+      const { categoryIndex, taskIndex } = selectedTask;
+
+      // 깊은 복사 후 삭제
+      const newTasks = JSON.parse(JSON.stringify(tasks));
+      newTasks[categoryIndex].items.splice(taskIndex, 1);
+
+      setTasks(newTasks);
+      clearSelectedTask();
+    }
+
     setShowPopup(false);
-}
+  };
+
+  const handleCancelDelete = () => {
+    setShowPopup(false);
+  };
 
   return (
     <>
-    <Wrapper>
-      <DeleteButton
-        as={motion.button}
-        style={{ opacity }}
-        onClick={handleDeleteClick}
-        initial={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        삭제
-      </DeleteButton>
+      <Wrapper>
+        <DeleteButton
+          as={motion.button}
+          style={{ opacity }}
+          onClick={handleDeleteClick}
+          initial={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          삭제
+        </DeleteButton>
 
-      <MotionItem
-        drag="x"
-        dragConstraints={{ left: -80, right: 0 }}
-        style={{ x }}
-        animate={controls}
-        onDragEnd={handleDragEnd}
-        onClick={isSwiped ? handleRecover : undefined}
-      >
-        {children}
-      </MotionItem>
-    </Wrapper>
+        <MotionItem
+          drag="x"
+          dragConstraints={{ left: -80, right: 0 }}
+          style={{ x }}
+          animate={controls}
+          onDragEnd={handleDragEnd}
+          onClick={isSwiped ? handleRecover : undefined}
+        >
+          {children}
+        </MotionItem>
+      </Wrapper>
 
-    {showPopup && (
-        <DeletePopup
-        onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-        />
-    )}
+      {showPopup && <DeletePopup onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />}
     </>
   );
 }
