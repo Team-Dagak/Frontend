@@ -16,8 +16,7 @@ const container = css`
   padding: 8px;
   border-radius: 10px;
   
-`;
-
+`
 const calender = css`
   position: relative;
   min-width: 100% - 16px;
@@ -29,29 +28,31 @@ const calender = css`
   height: auto;
   min-height: 450px;
   // -------------------
-  items-align: center;
+  align-items: center;
   justify-content: center;
   text-align: center;
-  content-align: center;
+  align-content: center;
   display: flex;
-`;
+`
+const topBar = css`
+  height: 64px;
+  width: 100%;
+`
+const mb24 = css`
+  margin-bottom: 24px;
+`
 const mt8 = css`
   margin-top: 8px;
-`;
-
-const task1 = css`
-  height: 127px;
-`;
-
-const topBar = css`
-  height: 24px;
-  width: 100%;
+`
+const mh16 = css`
+  margin: 0 16px;
 `
 
 const homeView = () => {
   return (
-    <div css={{paddingBottom: "88px"}}>
-      <div css={calender}>
+    <div css={[{paddingBottom: "88px"}, mh16]}>
+      <div css={topBar}></div>
+      <div css={[calender, mb24]}>
         <HomeCalendar />
       </div>
       {

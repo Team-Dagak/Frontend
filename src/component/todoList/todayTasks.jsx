@@ -4,6 +4,7 @@ import TitleBlock from "./titleBlock";
 import FilterBar from "./filterBar";
 import { useTaskStore, useFilterStore } from "../../store/states";
 import SwipeToDeleteItem from "../swipeToDelete/swipeToDelete";
+import { css } from '@emotion/react';
 
 export default function TodayTasks() {
   const tasks = useTaskStore((state) => state.tasks);
@@ -20,7 +21,7 @@ export default function TodayTasks() {
 
   return (
     <Container>
-      <TitleBlock />
+      <TitleBlock css={{paddingBottom: "35px"}}/>
       <FilterBar />
 
       {tasks.map((cat, catindex) => {
@@ -59,36 +60,33 @@ export default function TodayTasks() {
 const Container = styled.div`
   background: #ffffff;
   height: 100%;
-  padding: 1.5rem;
+  padding: 17px;
   color: #1a1a1a;
   overflow: hidden;
 `;
 
 const TaskCategoryWrapper = styled.div`
-  background: #f7f7f8;
+  background: #ffffff;
   border-radius: 1rem;
-  padding: 1.25rem;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   overflow-x: hidden;
 `;
 
 const CategoryTitle = styled.h2`
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 18px;
 `;
 
 const TaskItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.4rem 0;
-  cursor: pointer;
+  padding-bottom: 5px;
 `;
 
 const Label = styled.div`
   font-size: 0.875rem;
-  line-height: 1.5;
   color: #1a1a1a;
 `;
 

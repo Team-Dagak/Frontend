@@ -70,7 +70,7 @@ export default function SwipeToDeleteItem({ children, onDelete, categoryIndex, t
   };
 
   const handleCancelDelete = () => {
-    controls.start({ x: 0 });
+        controls.start({ x: 0 });
     setIsSwiped(false);
     setShowPopup(false);
   };

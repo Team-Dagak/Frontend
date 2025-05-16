@@ -2,7 +2,6 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useFilterStore } from '../../store/states'
-import data from '../../data/data.json'
 import { useTaskStore } from "../../store/states";
 import useEmblaCarousel from 'embla-carousel-react';
 import { css } from '@emotion/react';
@@ -18,6 +17,8 @@ const FilterButton = styled.button`
   padding: 0.4rem 0.8rem;
   background: ${(props) => (props.active ? "#1A1A1A" : "#F7F7F8")};
   color: ${(props) => (props.active ? "white" : "#1A1A1A")};
+  animation: ${({props}) => (props ? "pop-in 0.25s ease-out" : "pop-out 0.25s ease-in")};
+  transition: background 0.3s ease;
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -58,7 +59,7 @@ export default function FilterBar() {
     setType(key);
   };
 
-  const totalCount = data.tasks.reduce((sum, task) => sum + (task.count || 0), 0);
+  const totalCount = tasks.reduce((sum, task) => sum + (task.count || 0), 0);
 
   return (
     <Bar css={embla} ref={emblaRef}>

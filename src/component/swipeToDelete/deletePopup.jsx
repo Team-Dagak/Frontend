@@ -32,7 +32,7 @@ const giveUp = css`
 
 `;
 
-const explanation = css`
+const explanation = css`  
   display: block;
   font-size: small;
   align-content: center;
@@ -64,6 +64,8 @@ const Retire = styled.button`
   color: white;
   border: none;
 `;
+
+
 
 export default function DeletePopup({ onConfirm, onCancel }) {
   const {PopupTask} = usePopupStore();
