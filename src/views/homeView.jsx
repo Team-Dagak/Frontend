@@ -39,6 +39,10 @@ const task1 = css`
 `;
 
 const homeView = () => {
+  const handleDateSelect = (date) => {
+    console.log('선택한 날짜:', date); //캘린더에서 선택한 날짜 전달받음 (필요할것 같아서 추가함))
+  };
+
   return (
     <>
       <div css={calender}>
