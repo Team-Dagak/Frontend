@@ -1,10 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css");
 
-/* .css-1qbfxy9 {
-  font-family: "Pretendard Variable";
-  font-weight: 100;
-} */
-
 .react-calendar {
   background-color: white;
   /* -webkit-font-smoothing: antialiased; */
@@ -25,19 +20,17 @@
   margin-bottom: 20px;
   margin-left: 16px;
   margin-right: 16px;
-
-  font-family: "Pretendard Variable";
-  font-weight: 100;
-
 }
 
-.greeting {
+.greeting h2 {
   width: 229px;
-  height: 54px;
   line-height: 25px;
   text-align: left;
-  font-size: 15px;
+  font-size: 20px;
   border: 1px solid white;
+
+  font-family: "Pretendard", sans-serif; 
+  font-weight: 600;
 }
 
 /* 월별 이동 버튼(커스텀) ==================================*/
@@ -121,6 +114,9 @@ abbr[title="Thursday"],
 abbr[title="Friday"],
 abbr[title="Saturday"] {
   color: #5e6573;
+  font-family: "Pretendard", sans-serif; 
+  font-weight: 400;
+  font-size: 12px;
 }
 
 /* 날짜 담긴 부분 */
@@ -139,11 +135,15 @@ abbr[title="Saturday"] {
   width: 44px;
   height: 44px;
   border-radius: 8px;
+  border: 1px solid #e6e7ea;
+
+  font-family: "Pretendard", sans-serif; 
+  font-weight: 400;
+  font-size: 12px;
 }
 
 /* 각 날짜들 (버튼) */
 .react-calendar button {
-  border: 1px solid #e6e7ea;
   border-radius: 8px;
 }
 
@@ -163,22 +163,30 @@ abbr[title="Saturday"] {
 
 /* 미완료된 날짜 */
 .incomplete-tile {
-  background-color: #e6e7ea;
-  color: #9198a6;
+  background-color: #E6E7EA;
+  color: #474C57;
 }
 
 /* 오늘 날짜 */
 .react-calendar__tile.today-tile {
-  background-color: #ff610d;
-  border: 1px solid #ff610d;
+  background-color: #FF8442;
+  border: 1px solid #FF8442;
+  color: rgb(255, 255, 255) !important;
+}
+
+.react-calendar__tile.today-tile:focus {
+  background-color: #FF620D;
+  border: 1px solid #FF620D;
   color: rgb(0, 0, 0) !important;
 }
 
+
 /* 현재 달에 포함되지 않는 날짜 스타일 ======================== */
-.react-calendar__month-view__days__day--neighboringMonth {
+.react-calendar__month-view__days__day--neighboringMonth,
+.neighborMonthStyle {
   color: #9198a6;
-  background-color: #e6e7ea;
-  border: 1px solid #e6e7ea;
+  background-color: #CACDD4;
+  border: none;
 }
 /* ==================================================== */
 
@@ -189,6 +197,9 @@ abbr[title="Saturday"] {
   height: 18px;
   justify-content: flex-end; /* 오른쪽 정렬 */
   margin: 16px 22px 31px;
+  font-family: "Pretendard", sans-serif; 
+  font-weight: 400;
+  font-size: 12px;
 }
 
 .color-guide-item {
@@ -203,33 +214,36 @@ abbr[title="Saturday"] {
   margin-left: 8px;
 }
 
-.color-guide-item:nth-child(3) {
-  width: 50px;
+/* 간격 */
+.color-guide-item:nth-child(3) { 
+  width: 44px;
+  margin-left: 0;
 }
 
 .color-box {
   width: 16px;
   height: 16px;
-  border-radius: 6px;
+  border-radius: 4px;
   border: 1px solid transparent;
 }
 
+/* "미완료" */
 .color-box.incomplete {
   background-color: #ffffff;
   border: 1px solid #e6e7ea;
 }
 
+/* "완료" */
 .color-box.done {
   background-color: #1a1c20;
 }
 
+/* "오늘" */
 .color-box.today {
   background-color: #ff610d;
 }
 
 .color-guide .color-guide-item .label {
-
   font-size: 12px;
-
 }
 /* ==================================================== */
