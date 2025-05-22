@@ -7,6 +7,7 @@ import SwipeToDeleteItem from "../swipeToDelete/swipeToDelete";
 import { useEffect,useState } from "react";
 import { css } from '@emotion/react';
 import OnlyCheckPopup from "../checklist/onlyCheckPopup"; // 실제 파일 경로에 따라 수정
+import {primary} from '../common/styles/globalStyle/colors';
 
 export default function TodayChecklists() {
   const checklists = useChecklistStore((state) => state.Checklists);

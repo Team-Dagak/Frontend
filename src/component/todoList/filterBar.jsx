@@ -5,6 +5,7 @@ import { useFilterStore,useGoalStore} from '../../store/states'
 import { useChecklistStore } from "../../store/states";
 import useEmblaCarousel from 'embla-carousel-react';
 import { css } from '@emotion/react';
+import { gray10, grayMain } from "../common/styles/globalStyle/colors";
 
 const Bar = styled.div`
   display: flex;
@@ -15,8 +16,8 @@ const Bar = styled.div`
 
 const FilterButton = styled.button`
   padding: 0.4rem 0.8rem;
-  background: ${(props) => (props.active ? "#1A1A1A" : "#F7F7F8")};
-  color: ${(props) => (props.active ? "white" : "#1A1A1A")};
+  background: ${(props) => (props.active ? grayMain : gray10)};
+  color: ${(props) => (props.active ? "white" : grayMain)};
   animation: ${({props}) => (props ? "pop-in 0.25s ease-out" : "pop-out 0.25s ease-in")};
   transition: background 0.3s ease;
   border-radius: 9999px;

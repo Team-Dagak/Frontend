@@ -1,18 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useChecklistStore } from "../../store/states";
+import { primary, gray70, grayMain } from "../common/styles/globalStyle/colors";
 
 const Title = styled.div`
   font-size: 18px;
   font-weight: bold;
+  color: ${grayMain};
 `;
 
 const Accent = styled.span`
-  color: #ff610d;
+  color: ${primary};
 `;
 
 const DateText = styled.div`
-  color: #474c57;
+  color: ${gray70};
   font-size: 15px;
   font-weight: 150;
   margin-bottom: 20px;
