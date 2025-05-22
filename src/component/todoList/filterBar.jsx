@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useEffect } from "react";
-import { useFilterStore } from '../../store/states'
-import { useTaskStore } from "../../store/states";
+import { useEffect,useMemo } from "react";
+import { useFilterStore,useGoalStore} from '../../store/states'
+import { useChecklistStore } from "../../store/states";
 import useEmblaCarousel from 'embla-carousel-react';
 import { css } from '@emotion/react';
 
@@ -45,39 +45,64 @@ const emblaContainer = css`
 
 
 export default function FilterBar() {
-  const tasks = useTaskStore((state) => state.tasks)
-  const {type, setType} = useFilterStore();
-  const [emblaRef, emblaApi] = useEmblaCarousel({loop: false, align: 'start'});
+  const Checklists = useChecklistStore((state) => state.Checklists);
+  const { type, setType } = useFilterStore();
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start' });
+
   
+
+  const goals = useGoalStore((state) => state.goals); // goal 목록
+
   useEffect(() => {
-    if (emblaApi) {
-      console.log(emblaApi.slideNodes());
-    }
-  }, [emblaApi]);
+    console.log("Checklists 샘플:", Checklists);
+    console.log("goals 샘플:", goals);
+  }, [Checklists, goals]);
+ // **goalname별로 checklist 개수 집계 (0건도 포함)**
+ const categoryCounts = useMemo(() => {
+  const counts = {};
+  // 1. 모든 goalname을 0으로 초기화
+  for (const goal of goals) {
+    counts[goal.goalname] = 0;
+  }
+  // 2. checklist 돌면서 goalname 카운트 증가
+  for (const item of Checklists) {
+    // item.goalId에 해당하는 goal을 찾아서 goalname 가져오기
+    const goal = goals.find(g => g.goalId === item.goalId);
+    const cat = goal ? goal.goalname : "기타";
+    counts[cat] = (counts[cat] || 0) + 1;
+  }
+  return counts;
+}, [Checklists, goals]);
 
-  const handleClick = (key) => {
-    setType(key);
-  };
+// goalname 카테고리 리스트
+const categories = Object.keys(categoryCounts);
 
-  const totalCount = tasks.reduce((sum, task) => sum + (task.count || 0), 0);
+// 전체 checklist 개수
+const totalCount = Checklists.length;
 
-  return (
-    <Bar css={embla} ref={emblaRef}>
-      <div css={emblaContainer}>
-        <FilterButton active={type === "All"} onClick={() => handleClick('All')} css = {{fontWeight:"400"}} >전체 {totalCount}건</FilterButton>
-        {tasks.map((item, index) => (
-          <FilterButton
-          active = {type === item.taskType} 
-          onClick={() => handleClick(item.taskType)} 
-          key={index}
-          css = {{fontWeight:"400"}}
-          >
-            # {item.taskType}  {item.count} 건
-          </FilterButton>
-        ))}
-      </div>
-    </Bar>
-  );
+return (
+  <Bar css={embla} ref={emblaRef}>
+    <div css={emblaContainer}>
+      <FilterButton
+        active={type === "All"}
+        onClick={() => setType("All")}
+        css={{ fontWeight: "400" }}
+      >
+        전체 {totalCount}건
+      </FilterButton>
+      {categories.map((cat) => (
+        <FilterButton
+          key={cat}
+          active={type === cat}
+          onClick={() => setType(cat)}
+          css={{ fontWeight: "400" }}
+        >
+          #{cat} {categoryCounts[cat]}건
+        </FilterButton>
+      ))}
+    </div>
+  </Bar>
+);
 }
 
 

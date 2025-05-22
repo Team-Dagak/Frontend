@@ -68,14 +68,14 @@ const Retire = styled.button`
 
 
 export default function DeletePopup({ onConfirm, onCancel }) {
-  const {PopupTask} = usePopupStore();
-  const {taskName, taskType} = PopupTask || {};
+  const {PopupGoal} = usePopupStore();
+  const {ChecklistName, ChecklistType} = PopupGoal || {};
 
 
   return (
     <div css={container}>
       <div css={giveUp}>작은 목표를 정말 삭제할까요?</div>
-      <div css={explanation}> <b># {taskType}</b> 에 설정한 작은 목표&nbsp;<b>{taskName}</b> 은/는 삭제되며 다시 복구할 수 없어요. </div>
+      <div css={explanation}> <b># {ChecklistType}</b> 에 설정한 작은 목표&nbsp;<b>{ChecklistName}</b> 은/는 삭제되며 다시 복구할 수 없어요. </div>
       <div css={choice}>
         <Retry onClick={onCancel}>다시 생각해볼래요</Retry>
         <Retire onClick={onConfirm}>네, 삭제할래요</Retire>

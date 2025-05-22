@@ -3,11 +3,11 @@ import React from "react";
 import { css, Global } from "@emotion/react";
 import Carousel from "../component/carousel/recommendCarousel";
 import HomeCalendar from "../component/calendar/homeCalendar";
-import TodayTasks from "../component/todoList/todayTasks";
+import TodayChecklists from "../component/todoList/todayChecklists";
 import ProfileButton from "../component/profileButton/profileButton";
 import NavigationBar from "../component/bottomBar/navigationBar";
-
-
+import { usePopupStore } from "../store/states";
+import AddGoal from "../component/goal/AddGoal";
 const container = css`
   position: relative;
   width: calc(100% - 16px);
@@ -49,21 +49,40 @@ const mh16 = css`
 `
 
 const homeView = () => {
-  return (
-    <div css={[{paddingBottom: "88px"}, mh16]}>
-      <div css={topBar}></div>
-      <div css={[calender, mb24]}>
-        <HomeCalendar />
-      </div>
-      {
-      //추천 캐러셀 추후 사용시 주석 해제
-      /*<div css={container}>
+    // zustand에서 팝업 관련 상태 가져오기
+    const PopupGoal = usePopupStore(s => s.PopupGoal);
+    const clearPopupGoal = usePopupStore(s => s.clearPopupGoal);
+  
+    // 목표 등록 처리 콜백(예시)
+    const handleGoalAdd = (goalData) => {
+      // 예시: useGoalStore.getState().addGoal(goalData);
+      clearPopupGoal(); // 팝업 닫기
+    };
+
+    return (
+      <div css={[{paddingBottom: "88px"}, mh16]}>
+        <div css={topBar}></div>
+        <div css={[calender, mb24]}>
+          <HomeCalendar />
+        </div>
+        <div css={container}>
           <Carousel />
-      </div>*/}
-      <div css={[container]}><TodayTasks /></div>
-      <NavigationBar/>
-    </div>
-  );
+        </div>
+        <div css={[container]}>
+          <TodayChecklists />
+        </div>
+        <NavigationBar />
+  
+        {/* 👇 여기! 팝업은 여기서 조건부 렌더 */}
+        {PopupGoal && (
+          <AddGoal
+            goal={PopupGoal}
+            onConfirm={handleGoalAdd}
+            onCancel={clearPopupGoal}
+          />
+        )}
+      </div>
+    );
 };
 
 export default homeView;

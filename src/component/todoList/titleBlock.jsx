@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useTaskStore } from "../../store/states";
+import { useChecklistStore } from "../../store/states";
 
 const Title = styled.div`
   font-size: 18px;
@@ -19,10 +19,10 @@ const DateText = styled.div`
 `;
 
 export default function TitleBlock({ className }) {
-  const tasks = useTaskStore((state) => state.tasks)
+  const Checklists = useChecklistStore((state) => state.Checklists)
   const date = new Date();
   const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-  const totalCount = tasks.reduce((sum, task) => sum + (task.count || 0), 0);
+  const totalCount = Checklists.reduce((sum, Checklist) => sum + (Checklist.count || 0), 0);
 
   return (
     <div>

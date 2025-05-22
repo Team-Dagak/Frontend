@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import styled from "@emotion/styled";
 import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
 import DeletePopup from "./deletePopup";
-import { useTaskStore, useSelectedTaskStore, usePopupStore } from "../../store/states";
+import { useChecklistStore, useSelectedChecklistStore, usePopupStore } from "../../store/states";
 
-export default function SwipeToDeleteItem({ children, onDelete, categoryIndex, taskIndex }) {
+export default function SwipeToDeleteItem({ children, onDelete ,checklistId}) {
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [isSwiped, setIsSwiped] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const { setSelectedTask } = useSelectedTaskStore();
-  const tasks = useTaskStore((state) => state.tasks);
-  const setPopupTask = usePopupStore((state) => state.setPopupTask);
+  const { setSelectedChecklist } = useSelectedChecklistStore();
+  const Checklists = useChecklistStore((state) => state.Checklist);
+  const setPopupChecklist = usePopupStore((state) => state.setPopupChecklist);
+
 
   // 삭제 버튼 투명도 (왼쪽으로 갈수록 진해짐)
   const opacity = useTransform(x, [-80, 0], [1, 0]);
@@ -33,40 +34,33 @@ export default function SwipeToDeleteItem({ children, onDelete, categoryIndex, t
     setIsSwiped(false);
   };
 
-  const handleDeleteClick = () => {
-    setSelectedTask({ categoryIndex, taskIndex });
-    const taskData = tasks[categoryIndex].items[taskIndex];
-    const taskType = tasks[categoryIndex].taskType;
+  const handleDeleteClick = (checklistId) => {
+    console.log("checklistId:", checklistId); // 콘솔 찍기
 
-    setPopupTask({
-      taskType,
-      taskName: taskData.task,
-      categoryIndex,
-      taskIndex,
-    });
-
+    setPopupChecklist(checklistId);
+    
     setShowPopup(true);
   };
-
   const handleConfirmDelete = () => {
-    const { selectedTask, clearSelectedTask } = useSelectedTaskStore.getState();
-    const { tasks, setTasks } = useTaskStore.getState();
+    const { selectedChecklist, clearSelectedChecklist } = useSelectedChecklistStore.getState();
+    const { Checklists, setChecklists } = useChecklistStore.getState();
 
-    if (selectedTask) {
-      const { categoryIndex, taskIndex } = selectedTask;
+    if (selectedChecklist) {
+      const { categoryIndex, ChecklistIndex } = selectedChecklist;
 
       // 깊은 복사 후 삭제
-      const newTasks = JSON.parse(JSON.stringify(tasks));
-      newTasks[categoryIndex].items.splice(taskIndex, 1);
+      const newChecklists = JSON.parse(JSON.stringify(Checklists));
+      newChecklists[categoryIndex].items.splice(ChecklistIndex, 1);
 
-      setTasks(newTasks);
-      clearSelectedTask();
+      setChecklists(newChecklists);
+      clearSelectedChecklist();
     }
-
+    if (onDelete) onDelete(); 
+    setShowPopup(false);
     controls.start({ x: 0 });
     setIsSwiped(false);
-
-    setShowPopup(false);
+    
+    
   };
 
   const handleCancelDelete = () => {
@@ -81,7 +75,7 @@ export default function SwipeToDeleteItem({ children, onDelete, categoryIndex, t
         <DeleteButton
           as={motion.button}
           style={{ opacity }}
-          onClick={handleDeleteClick}
+          onClick={() => handleDeleteClick(checklistId)}
           initial={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
