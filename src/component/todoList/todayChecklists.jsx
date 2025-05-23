@@ -7,7 +7,8 @@ import SwipeToDeleteItem from "../swipeToDelete/swipeToDelete";
 import { useEffect,useState } from "react";
 import { css } from '@emotion/react';
 import OnlyCheckPopup from "../checklist/onlyCheckPopup"; // 실제 파일 경로에 따라 수정
-import {primary} from '../common/styles/globalStyle/colors';
+import { primary } from '../common/styles/globalStyle/colors';
+import { FaPlus } from "react-icons/fa";
 
 export default function TodayChecklists() {
   const checklists = useChecklistStore((state) => state.Checklists);
@@ -57,7 +58,13 @@ export default function TodayChecklists() {
 
         return (
           <ChecklistCategoryWrapper key={goal.goalId}>
-            <CategoryTitle>{goal.goalname}</CategoryTitle>
+            <div css={TitleBar}>
+            <CategoryTitle># {goal.goalname}</CategoryTitle>
+            <FaPlus onClick={() => {
+                setSelectedGoalId(goal.goalId);
+                setShowPopup(true);
+              }}/>
+            </div>
             {myChecklists.length > 0
               ? myChecklists.map((item) => (
                   <SwipeToDeleteItem 
@@ -65,27 +72,16 @@ export default function TodayChecklists() {
                         checklistId={item.checklistId}  
                         onDelete={() => deleteChecklist(item.checklistId)}>
                     <StyledChecklistItem>
-                      <Label>{item.checklistName}</Label>
                       <CheckBox
                         background={item.clear ? "#4E6EF2" : "#1a1a1a"}
                         onClick={() => updateChecklist(item.checklistId, { clear: !item.clear })}
                         checked={item.clear}
-                      />
+                      /><Label>{item.checklistName}</Label>
                     </StyledChecklistItem>
                   </SwipeToDeleteItem>
                 ))
               : <div style={{ margin: "1rem 0", color: "#aaa", fontSize: "0.95rem" }}>등록된 할 일이 없습니다.</div>
             }
-            {/* 할 일 추가하기 버튼! */}
-            <CategoryTitle
-              css={{ color: "grey", fontSize: "1rem", cursor: "pointer" }}
-              onClick={() => {
-                setSelectedGoalId(goal.goalId);
-                setShowPopup(true);
-              }}
-            >
-              할일 추가하기 +
-            </CategoryTitle>
           </ChecklistCategoryWrapper>
         );
       })}
@@ -119,14 +115,15 @@ const ChecklistCategoryWrapper = styled.div`
 const CategoryTitle = styled.h2`
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 18px;
+
 `;
 
 const StyledChecklistItem = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
   align-items: center;
   padding-bottom: 5px;
+  text-align: left;
 `;
 
 const Label = styled.div`
@@ -142,3 +139,11 @@ const CheckBox = styled.div`
   animation: ${({ checked }) => (checked ? "pop-in 0.25s ease-out" : "pop-out 0.25s ease-in")};
   transition: background 0.3s ease;
 `;
+
+const TitleBar = css`
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 18px;
+`

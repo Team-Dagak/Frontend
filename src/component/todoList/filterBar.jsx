@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useEffect,useMemo } from "react";
-import { useFilterStore,useGoalStore} from '../../store/states'
-import { useChecklistStore } from "../../store/states";
+import { useFilterStore, useGoalStore, useChecklistStore, useChecklistCount} from '../../store/states'
 import useEmblaCarousel from 'embla-carousel-react';
 import { css } from '@emotion/react';
 import { gray10, grayMain } from "../common/styles/globalStyle/colors";
@@ -49,6 +48,7 @@ export default function FilterBar() {
   const Checklists = useChecklistStore((state) => state.Checklists);
   const { type, setType } = useFilterStore();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start' });
+  const { totalCount, setTotalCount } = useChecklistCount();
 
   
 
@@ -79,7 +79,9 @@ export default function FilterBar() {
 const categories = Object.keys(categoryCounts);
 
 // 전체 checklist 개수
-const totalCount = Checklists.length;
+useEffect(() => {
+  setTotalCount(Checklists.length);
+}, [Checklists, setTotalCount]);
 
 return (
   <Bar css={embla} ref={emblaRef}>

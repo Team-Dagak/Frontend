@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useChecklistStore } from "../../store/states";
+import { useChecklistStore, useChecklistCount } from "../../store/states";
 import { primary, gray70, grayMain } from "../common/styles/globalStyle/colors";
 
 const Title = styled.div`
@@ -22,9 +22,9 @@ const DateText = styled.div`
 
 export default function TitleBlock({ className }) {
   const Checklists = useChecklistStore((state) => state.Checklists)
+  const {totalCount, setTotalCount} = useChecklistCount();
   const date = new Date();
   const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-  const totalCount = Checklists.reduce((sum, Checklist) => sum + (Checklist.count || 0), 0);
 
   return (
     <div>

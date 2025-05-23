@@ -69,10 +69,32 @@ export default function SwipeToDeleteItem({ children, onDelete ,checklistId}) {
     setShowPopup(false);
   };
 
+  useEffect(() => {
+  const handleClickOutside = (e) => {
+    // MotionItem DOM 요소 내부 클릭이면 무시
+    if (e.target.closest(".swipe-item")||
+      e.target.closest(".delete-button")) return;
+    
+    // 외부 클릭이면 복구
+    if (isSwiped) {
+      handleRecover();
+    }
+  };
+
+  if (isSwiped) {
+    document.addEventListener("mousedown", handleClickOutside);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [isSwiped]);
+
   return (
     <>
       <Wrapper>
         <DeleteButton
+        className="delete-button"
           as={motion.button}
           style={{ opacity }}
           onClick={() => handleDeleteClick(checklistId)}
@@ -83,6 +105,7 @@ export default function SwipeToDeleteItem({ children, onDelete ,checklistId}) {
         </DeleteButton>
 
         <MotionItem
+          className="swipe-item"
           drag="x"
           dragConstraints={{ left: -80, right: 0 }}
           style={{ x }}

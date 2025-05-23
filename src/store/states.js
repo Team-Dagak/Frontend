@@ -9,10 +9,6 @@ export const useFilterStore = create((set) => ({
   setType: (key) => set({ type: key }),  // 상태 변경 함수
 }));
 
-
-
-
-
 export const useChecklistStore = create((set, get) => ({
   Checklists: [],
 
@@ -221,3 +217,8 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 }))
+
+export const useChecklistCount = create((set)=>({
+  totalCount: null,
+  setTotalCount: (count)=>set({totalCount: count}),
+}));

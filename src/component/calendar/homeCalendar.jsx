@@ -99,12 +99,13 @@ function HomeCalendar({ onDateSelect }) {
 
     const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; // YYYY-MM-DD 형식으로 변환(한국 표준시))
     const goalStatus = goalsData[dateStr]?.status; // 해당 날짜의 목표 상태 가져오기(달성, 미달성, 오늘)
-
+    
+    /*
     // 디버깅 위한 콘솔 로그
     console.log("Date:", date);
     console.log("DateStr:", dateStr);
     console.log("Status:", goalStatus);
-    console.log("Available dates:", Object.keys(goalsData));
+    console.log("Available dates:", Object.keys(goalsData)); */
 
     if (isToday(date)) return "today-tile"; //오늘이면 .today-tile 스타일 적용
     if (goalStatus === "done") return "done-tile";

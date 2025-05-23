@@ -8,26 +8,22 @@ import ProfileButton from "../component/profileButton/profileButton";
 import NavigationBar from "../component/bottomBar/navigationBar";
 import { usePopupStore } from "../store/states";
 import AddGoal from "../component/goal/AddGoal";
+import ButtonSample from '../assets/ButtonSample.png';
+import {FaArrowDown} from 'react-icons/fa';
+import { TbCalendarPause } from "react-icons/tb";
+import AddBigGoal from "../component/AddBigGoal/addBigGoal";
+import { primary } from "../component/common/styles/globalStyle/colors";
+
 const container = css`
-  position: relative;
-  width: calc(100% - 16px);
-  background-color: #ffffff;
-  margin: 8px;
-  padding: 8px;
+  width: 100%;
+  margin: 0 auto 16px;
+  padding: 16px;
   border-radius: 10px;
+  background-color: #fff;
+  box-sizing: border-box;
   
 `
 const calender = css`
-  position: relative;
-  min-width: 100% - 16px;
-  background-color: #ffffff;
-  margin: 8px;
-  padding: 8px;
-  border-radius: 10px;
-  // 어떻게 할건지 회의 후 수정----
-  height: auto;
-  min-height: 450px;
-  // -------------------
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -37,6 +33,13 @@ const calender = css`
 const topBar = css`
   height: 64px;
   width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto auto;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  gap: 7px;
 `
 const mb24 = css`
   margin-bottom: 24px;
@@ -46,6 +49,16 @@ const mt8 = css`
 `
 const mh16 = css`
   margin: 0 16px;
+`
+
+const ph15 = css`
+  padding: 0 10px;
+`
+
+const delayedWork = css`
+  font-weight: bold;
+  color: ${primary};
+  font-size: 20px;
 `
 
 const homeView = () => {
@@ -60,15 +73,22 @@ const homeView = () => {
     };
 
     return (
-      <div css={[{paddingBottom: "88px"}, mh16]}>
-        <div css={topBar}></div>
-        <div css={[calender, mb24]}>
+      <div css={[{paddingBottom: "88px"}, mh16, {justifyContent:"center"}]}>
+        <div css={topBar}>
+          <img css={ph15} src={ButtonSample} /> {/* 미룬일 아이콘 */}
+          <div css={delayedWork}>미룬 일 7건</div>
+          <div css={ph15}><FaArrowDown size="20px" /></div>
+          <div/>
+          <TbCalendarPause size="30px" />
+          <AddBigGoal />
+        </div>
+        <div css={[container, calender]}>
           <HomeCalendar />
         </div>
-        <div css={container}>
+        {/*<div css={container}>
           <Carousel />
-        </div>
-        <div css={[container]}>
+        </div>*/}
+        <div css={[container]}> 
           <TodayChecklists />
         </div>
         <NavigationBar />
