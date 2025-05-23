@@ -1,8 +1,5 @@
-/** @jsxImportSource @emotion/react */
 import { PiNotePencilDuotone } from "react-icons/pi";
 import { usePopupStore } from "../../store/states";
-import { css } from "@emotion/react";
-import { useEffect } from "react";
 
 export default function AddBigGoal() {
     const setPopupGoal = usePopupStore((state) => state.setPopupGoal);
@@ -14,3 +11,4 @@ export default function AddBigGoal() {
 
     return <PiNotePencilDuotone size="30px" onClick={handleAddEmptyGoal} />;
 }
+

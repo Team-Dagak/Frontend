@@ -2,12 +2,11 @@
 import styled from "@emotion/styled";
 import TitleBlock from "./titleBlock";
 import FilterBar from "./filterBar";
-import { useChecklistStore, useFilterStore,useGoalStore} from "../../store/states";
+import { useChecklistStore, useFilterStore, useGoalStore} from "../../store/states";
 import SwipeToDeleteItem from "../swipeToDelete/swipeToDelete";
 import { useEffect,useState } from "react";
 import { css } from '@emotion/react';
 import OnlyCheckPopup from "../checklist/onlyCheckPopup"; // 실제 파일 경로에 따라 수정
-import { primary } from '../common/styles/globalStyle/colors';
 import { FaPlus } from "react-icons/fa";
 
 export default function TodayChecklists() {
@@ -21,6 +20,7 @@ export default function TodayChecklists() {
   const [selectedGoalId, setSelectedGoalId] = useState(null);
   const addChecklist = useChecklistStore((state) => state.addChecklist);
   const fetchChecklists = useChecklistStore((state) => state.fetchChecklists);
+  const [selectedGoalName, setSelectedGoalName] = useState("");
 
   useEffect(() => {
     fetchGoals();
@@ -62,6 +62,7 @@ export default function TodayChecklists() {
             <CategoryTitle># {goal.goalname}</CategoryTitle>
             <FaPlus onClick={() => {
                 setSelectedGoalId(goal.goalId);
+                setSelectedGoalName(goal.goalname);
                 setShowPopup(true);
               }}/>
             </div>
@@ -89,6 +90,7 @@ export default function TodayChecklists() {
       {showPopup && (
         <OnlyCheckPopup
           goalId={selectedGoalId}
+          goalName={selectedGoalName}
           onConfirm={handleConfirm}
           onCancel={handleCancel}
         />
@@ -147,3 +149,4 @@ const TitleBar = css`
   align-content: center;
   margin-bottom: 18px;
 `
+

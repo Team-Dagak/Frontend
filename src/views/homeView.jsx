@@ -1,10 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-import { css, Global } from "@emotion/react";
-import Carousel from "../component/carousel/recommendCarousel";
+import { css} from "@emotion/react";
 import HomeCalendar from "../component/calendar/homeCalendar";
 import TodayChecklists from "../component/todoList/todayChecklists";
-import ProfileButton from "../component/profileButton/profileButton";
 import NavigationBar from "../component/bottomBar/navigationBar";
 import { usePopupStore } from "../store/states";
 import AddGoal from "../component/goal/AddGoal";
@@ -13,6 +10,8 @@ import {FaArrowDown} from 'react-icons/fa';
 import { TbCalendarPause } from "react-icons/tb";
 import AddBigGoal from "../component/AddBigGoal/addBigGoal";
 import { primary } from "../component/common/styles/globalStyle/colors";
+import InterectiveTextBox from "../component/textBoxPopup/interectiveTextBox";
+//import Carousel from "../component/carousel/recommendCarousel";
 
 const container = css`
   width: 100%;
@@ -101,7 +100,9 @@ const homeView = () => {
             onCancel={clearPopupGoal}
           />
         )}
+        
       </div>
+      
     );
 };
 

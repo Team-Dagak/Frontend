@@ -1,93 +1,146 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import styled from "@emotion/styled";
+import { gray10, gray20, gray60, primary } from "../common/styles/globalStyle/colors";
+import { keyframes } from "@emotion/react";
+import useKeyboardOffset from "./useKeyboardOffset";
+import useSmartKeyboardOffset from "./useSmartKeyboardOffset";
+
+const slideUp = keyframes`
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
+`;
+
+const AnimatedWrapper = styled.div`
+  animation: ${slideUp} 0.35s ease-out;
+`;
 
 const Container = styled.div`
-  position: fixed;
-  z-index: 2000;
-  width: 361px;
-  padding: 18px;
-  background: #fff;
-  border-radius: 16px;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  min-height: 157px;
+  height: fit-content;
+  background-color: #ffffffB3;
+  border-radius: 16px 16px 0 0;
+  z-index: 3000;
+  backdrop-filter: blur(15px);
+  position: relative;
+
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 20px;
+  padding-bottom:20px;
 `;
 
-const ChecklistInput = styled.input`
-  width: 80%;
-  padding: 8px;
-  font-size: 1rem;
-  margin-right: 8px;
-  border-radius: 6px;
-  border: 1px solid #eee;
-`;
-
-const Button = styled.button`
-  padding: 7px 14px;
-  border-radius: 8px;
+const TextBox = styled.textarea`
+  background-color: transparent;
+  color: ${gray60};
+  font-size: 14px;
+  width: 100%;
+  resize: none;
   border: none;
-  margin-left: 5px;
-  background: #5171f6;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
+  outline: none;
+  padding: 12px;
+  box-sizing: border-box;
 `;
 
-const ListItem = styled.div`
+const Panel = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  padding: 0 12px;
 `;
 
-export default function OnlyCheckPopup({ onConfirm, onCancel }) {
-  // checklist 배열 관리 [{Checklist: "", clear: false}, ...]
-  const [checklists, setChecklists] = useState([{ Checklist: "", clear: false }]);
+const MainGoal = styled.div`
+  border-radius: 12px;
+  color: ${primary};
+  background-color: #fff;
+  width: fit-content;
+  padding:0 5px;
+  height: 32px;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+`;
 
-  // checklist 항목 추가
-  const handleAdd = () => setChecklists([...checklists, { Checklist: "", clear: false }]);
-  // checklist 항목 삭제
-  const handleRemove = (idx) => setChecklists(checklists.filter((_, i) => i !== idx));
-  // checklist 항목 내용 변경
-  const handleChange = (idx, value) =>
-    setChecklists(checklists.map((item, i) =>
-      i === idx ? { ...item, Checklist: value } : item
-    ));
+const Confirm = styled.button`
+  border-radius: 16px;
+  color: ${({ active }) => (active ? "#000" : "#fff")};
+  background-color: ${({ active }) => (active ? primary : "#000" )};
+  width: 57px;
+  height: 37px;
+  font-size: 12px;
+`;
 
-  // checklist 등록만! (goal은 상위 컴포넌트에서 전달)
-  const handleRegister = () => {
-    const clean = checklists.filter(t => t.Checklist.trim());
-    if (clean.length === 0) {
-      alert("최소 1개 이상의 할 일을 입력해 주세요.");
+export default function OnlyCheckPopup({ goalName, onConfirm, onCancel }) {
+  const [text, setText] = useState("");
+  const offset = useSmartKeyboardOffset();
+const adjusted = offset > 0 ? offset - 40 : 0;
+
+const handleRegister = () => {
+    const trimmed = text.trim();
+    if (!trimmed) {
+      alert("할 일을 입력해 주세요.");
       return;
     }
-    
-    onConfirm(clean);
-    console.log("onConfirm 호출!", clean);
+    onConfirm([{ Checklist: trimmed, clear: false }]);
+    console.log("onConfirm 호출!", trimmed);
   };
 
+  const ContainerWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
+  animation: slide-up 0.3s ease;
+  backdrop-filter: blur(5px);
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0%);
+    }
+  }
+`;
+
+
+
   return (
-    <Container>
-      <h3 style={{marginBottom: "1rem"}}>체크리스트 추가</h3>
-      {checklists.map((item, i) => (
-        <ListItem key={i}>
-          <ChecklistInput
-            type="text"
-            value={item.Checklist}
-            onChange={e => handleChange(i, e.target.value)}
-            placeholder={`할 일 #${i+1}`}
+    <Overlay onClick={onCancel}>
+      <AnimatedWrapper onClick={(e) => e.stopPropagation()}>
+        <Container style={{marginBottom: adjusted}}>
+          <TextBox
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="작은 목표를 작성해 주세요."
           />
-          {checklists.length > 1 && (
-            <Button onClick={() => handleRemove(i)} style={{background:"#ddd", color:"#333"}}>삭제</Button>
-          )}
-        </ListItem>
-      ))}
-      <div style={{marginBottom: 12}}>
-        <Button onClick={handleAdd} style={{background:"#eee", color:"#333"}}>+ 추가</Button>
-      </div>
-      <div style={{display:"flex", justifyContent:"flex-end", gap:12}}>
-        <Button onClick={onCancel} style={{background:"#f3f3f3", color:"#888"}}>취소</Button>
-        <Button onClick={handleRegister}>등록</Button>
-      </div>
-    </Container>
+          <Panel>
+            <MainGoal># {goalName}</MainGoal>
+            <Confirm
+              active={!!text}
+              onClick={!text ? onCancel : handleRegister}
+            >
+              {text ? "완료" : "취소"}
+            </Confirm>
+          </Panel>
+        </Container>
+      </AnimatedWrapper>
+    </Overlay>
   );
 }
