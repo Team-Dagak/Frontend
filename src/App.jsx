@@ -50,16 +50,6 @@ const App = () => {
       
       <Global styles={globalStyle} />
       <div className='app'>
-        <Router />
-      </div>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
-};
-
-
-export default App;
-
         <Routes>
         {/* 로그인은 별도 */}
         <Route path="/login" element={<Login />} />
@@ -73,3 +63,12 @@ export default App;
           }
         />
       </Routes>
+      </div>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
+
+
+export default App;
+

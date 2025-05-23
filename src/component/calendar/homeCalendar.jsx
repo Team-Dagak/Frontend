@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css"; //기본 제공 스타일
 import "./CalendarStyle.css"; // 커스텀 CSS
@@ -10,14 +10,14 @@ import "./CalendarStyle.css"; // 커스텀 CSS
 // 색상 다시 수정
 // 디테일한 부분 검토 후 잡기
 
-function HomeCalendar() {
+function HomeCalendar({ onDateSelect }) {
   //선택한 날짜를 상태로 저장
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
 
   // 목표 데이터 상태 관리
   const [goalsData, setGoalsData] = useState({
-    "2025-04-01": {
+    "2025-05-01": {
       status: "done",
       goals: [
         {
@@ -31,7 +31,7 @@ function HomeCalendar() {
         },
       ],
     },
-    "2025-04-12": {
+    "2025-05-03": {
       status: "incomplete",
       goals: [
         {
@@ -50,6 +50,15 @@ function HomeCalendar() {
   // 날짜 선택시 상태 변경
   const handleChange = (date) => {
     setSelectedDate(date);
+
+     
+  if ( //다른달의 날짜 클릭시 달 넘어가면서 선택한 날짜로 state 변경
+    date.getMonth() !== activeStartDate.getMonth() ||
+    date.getFullYear() !== activeStartDate.getFullYear()
+  ) {
+    setActiveStartDate(new Date(date.getFullYear(), date.getMonth(), 1));
+  }
+
     const dateStr = date.toISOString().split("T")[0];
     const selectedDateGoals = goalsData[dateStr]?.goals || [];
 
@@ -84,8 +93,10 @@ function HomeCalendar() {
     }));
   };
 
-  // 현재 날짜 가져와서 그날 조건에 맞게 스타일 적용
+  // 날짜 가져와서 그날 조건에 맞게 스타일 적용
   const getTileClassName = ({ date }) => {
+    if (isNeighborMonth(date)) return "neighboringMonthStyle"; // 지난,다음 달의 날짜면 회색으로 적용
+
     const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; // YYYY-MM-DD 형식으로 변환(한국 표준시))
     const goalStatus = goalsData[dateStr]?.status; // 해당 날짜의 목표 상태 가져오기(달성, 미달성, 오늘)
 
@@ -100,6 +111,27 @@ function HomeCalendar() {
     if (goalStatus === "incomplete") return "incomplete-tile";
     return null;
   };
+
+  // 선택한 날짜에 항상 focus
+  // selectedDate 또는 activeStartDate가 변경될 때마다 실행
+  useEffect(() => {
+    setTimeout(() => {
+      const selectedBtn = document.querySelector(".react-calendar__tile--active"); 
+      if (selectedBtn) {
+        selectedBtn.focus();
+      }
+    }, 0);
+  }, [selectedDate, activeStartDate]);
+
+  
+
+  // 캘린더에 표시된 날짜가 이번 달의 날짜인지 구분하는 함수
+const isNeighborMonth = (date) => {
+  return (
+    date.getMonth() !== activeStartDate.getMonth() ||
+    date.getFullYear() !== activeStartDate.getFullYear()
+  );
+};
 
   // 오늘 날짜인지 확인하는 함수
   const isToday = (date) => {
@@ -170,6 +202,9 @@ function HomeCalendar() {
         formatShortWeekday={(locale, date) =>
           date.toLocaleDateString("en-US", { weekday: "short" }).charAt(0)
         } //요일의 첫 글자만 표시
+
+        // calendarType="US" // 미국식 달력 (이것때문에 에러뜨는데 이유 뭔지 모르겠음)
+
       />
       {/* 캘린더 하단 색상가이드 */}
       <div className="color-guide">
