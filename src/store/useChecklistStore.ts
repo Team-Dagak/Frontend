@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { http } from "../lib/httpClient";
 
-interface CheckListData{
+export interface CheckListData{
     checklistId:number;
     checklist: string;
     clear: boolean;
