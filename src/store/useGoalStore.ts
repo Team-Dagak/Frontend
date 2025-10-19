@@ -18,6 +18,7 @@ interface GoalAction{
     fetchGoals: () => Promise<void>;
     addGoal: (goalData:GoalData) => Promise<void> ;
     deleteGoal: (goalId: number) => Promise<void>;
+    updateGoal: (goalId: number, updateData:GoalData) => Promise<void>;
 }
 
 type GoalStore = GoalState & GoalAction
