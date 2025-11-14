@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState, type ReactNode } from "react";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import Router from "./routes";
+import Login from "@/components/features/login/login";
+import { globalStyle } from "@/styles/globalStyle";
+import { Global } from "@emotion/react";
+import { useAuthStore } from "@/store/useAuthStore";
+const queryClient = new QueryClient();
 
-function App() {
-  const [count, setCount] = useState(0)
+// 보호된 라우트 컴포넌트
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+    const { isAuthenticated, checkAuthStatus } = useAuthStore();
+    const [isChecking, setIsChecking] = useState(true);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    useEffect(() => {
+        const verifyAuth = async () => {
+            await checkAuthStatus();
+            setIsChecking(false);
+        };
+        verifyAuth();
+    }, [checkAuthStatus]);
 
-export default App
+    if (isChecking) {
+        return (
+            <div className="flex h-screen items-center justify-center">
+                인증 확인 중...
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    return children;
+};
+
+const App = () => {
+    const { checkAuthStatus } = useAuthStore();
+
+    useEffect(() => {
+        // 앱 시작 시 인증 상태 확인
+        checkAuthStatus();
+    }, [checkAuthStatus]);
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter basename="/Frontend">
+                <Global styles={globalStyle} />
+                <div className="app">
+                    <Routes>
+                        {/* 로그인은 별도 */}
+                        <Route path="/login" element={<Login />} />
+                        {/* 나머지는 ProtectedRoute로 감싼다 */}
+                        <Route
+                            path="/*"
+                            element={
+                                <ProtectedRoute>
+                                    <Router />
+                                </ProtectedRoute>
+                            }
+                        />
+                    </Routes>
+                </div>
+            </BrowserRouter>
+        </QueryClientProvider>
+    );
+};
+
+export default App;

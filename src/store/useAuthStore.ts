@@ -1,14 +1,9 @@
 import type { AxiosError } from "axios";
 import { create } from "zustand";
 import { http } from "../lib/httpClient";
+import type { User } from "@/types/types";
 
 const OAUTH2_URL = import.meta.env.VITE_OAUTH2_API_BASE_URL;
-
-interface User {
-    id: string;
-    email: string;
-    name?: string;
-}
 
 interface AuthState {
     user: User | null;

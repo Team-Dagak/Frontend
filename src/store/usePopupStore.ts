@@ -1,12 +1,26 @@
 import { create } from "zustand";
+import type { ChecklistState } from "./useChecklistStore";
+import type { Goal } from "@/types/types";
 
 
-export const usePopupStore = create((set) => ({
-    PopupChecklist: null,
-    setPopupChecklist: (Checklist: unknown) => set({PopupChecklist: Checklist}),
-    clearPopupChecklist: () => set({ PopupChecklist: null}),
+export type PopupChecklist = ChecklistState | null;
 
-    PopupGoal: null,
-    setPopupGoal: (goal:unknown) => set({ PopupGoal: goal}),
-    clearPopupGoal: () => set({PopupGoal: null}),
+interface PopupStore {
+    popupGoal: Goal | null;
+    popupChecklist: PopupChecklist;
+
+    setPopupChecklist: (Checklist: ChecklistState) => void;
+    clearPopupChecklist: () => void;
+    setPopupGoal: (goal: Goal) => void;
+    clearPopupGoal: () => void;
+}
+
+export const usePopupStore = create<PopupStore>((set) => ({
+    popupChecklist: null,
+    setPopupChecklist: (Checklist: ChecklistState) => set({popupChecklist: Checklist}),
+    clearPopupChecklist: () => set({ popupChecklist: null}),
+
+    popupGoal: null,
+    setPopupGoal: (goal:Goal) => set({ popupGoal: goal}),
+    clearPopupGoal: () => set({popupGoal: null}),
 }))

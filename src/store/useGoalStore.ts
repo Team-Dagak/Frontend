@@ -1,24 +1,17 @@
 import { create } from "zustand";
 import { http } from "../lib/httpClient";
+import type { Goal } from "@/types/types";
 
-interface GoalData {
-    id: number;
-    goalname: string;
-    startdate: string;
-    deadline: string;
-    pinned: 0;
-    checklist: {id:string; text: string; done: boolean}[];
-}
 
 interface GoalState{
-    goals: GoalData[];
+    goals: Goal[];
 }
 
 interface GoalAction{
     fetchGoals: () => Promise<void>;
-    addGoal: (goalData:GoalData) => Promise<void> ;
+    addGoal: (goalData:Goal) => Promise<void> ;
     deleteGoal: (goalId: number) => Promise<void>;
-    updateGoal: (goalId: number, updateData:GoalData) => Promise<void>;
+    updateGoal: (goalId: number, updateData:Goal) => Promise<void>;
 }
 
 type GoalStore = GoalState & GoalAction
@@ -35,7 +28,7 @@ export const useGoalStore = create<GoalStore>((set) => ({
     },
 
     //목표 추가 Action
-    addGoal: async (goalData:GoalData) => {
+    addGoal: async (goalData:Goal) => {
         const res = await http.post(
             "/goals",goalData
         )
@@ -47,11 +40,11 @@ export const useGoalStore = create<GoalStore>((set) => ({
     },
 
     //목표 수정 Action
-    updateGoal: async (goalId: number, updateData:GoalData) => {
+    updateGoal: async (goalId: number, updateData:Goal) => {
         const res = await http.put(`api/goals/${goalId}`, updateData);
         const updateGoal = res.data;
         set((state) => ({
-            goals: state.goals.map((g) => g.id === goalId ? updateGoal: g),
+            goals: state.goals.map((g) => g.goalId === goalId ? updateGoal: g),
         }));
     },
 
@@ -59,7 +52,7 @@ export const useGoalStore = create<GoalStore>((set) => ({
     deleteGoal: async (goalId: number) => {
         await http.delete(`api/goals/${goalId}`);
         set((state) => ({
-            goals: state.goals.filter((g) => g.id !== goalId),
+            goals: state.goals.filter((g) => g.goalId !== goalId),
         }))
     }
 
