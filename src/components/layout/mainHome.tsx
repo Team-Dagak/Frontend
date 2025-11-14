@@ -10,12 +10,13 @@ import Calendar from "../features/calendar/calendar";
 import TodayChecklists from "../features/toDoList/todayChecklists";
 import AddGoal from "../features/goal/addGoal";
 import styled from "@emotion/styled";
+import NavigationBar from "../ui/navigation/navigationBar";
 
 const Wrapper = styled.div`
     width: 100vw;
     height: 100vh;
     overflow-y: auto;
-    
+
 `
 
 const container = css`
@@ -94,6 +95,7 @@ export default function MainHome({setPageIndex}:MainHome) {
                 {/* 👇 여기! 팝업은 여기서 조건부 렌더 */}
                 {PopupGoal && <AddGoal onCancel={clearPopupGoal} />}
             </div>
+            <NavigationBar />
         </Wrapper>
     );
 }
