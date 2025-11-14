@@ -6,6 +6,6 @@ interface FilterStore {
 }
 
 export const useFilterStore = create<FilterStore>((set) => ({
-    type: 'All',
+    type: 'All' ,
     setType: (key) => set({type:key}),
 }))
