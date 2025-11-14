@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { usePopupStore } from "@/store/usePopupStore";
+
 import { primary } from "@/styles/colors";
 import { css } from "@emotion/react";
 import ButtonSample from "@/assets/ButtonSample.png";
@@ -8,7 +8,6 @@ import { TbCalendarPause } from "react-icons/tb";
 import AddBigGoal from "../features/addBigGoal/addBigGoal";
 import Calendar from "../features/calendar/calendar";
 import TodayChecklists from "../features/toDoList/todayChecklists";
-import AddGoal from "../features/goal/addGoal";
 import styled from "@emotion/styled";
 import NavigationBar from "../ui/navigation/navigationBar";
 
@@ -61,8 +60,6 @@ interface MainHome {
 }
 
 export default function MainHome({setPageIndex}:MainHome) {
-    const PopupGoal = usePopupStore((s) => s.popupGoal);
-    const clearPopupGoal = usePopupStore((s) => s.clearPopupGoal);
     return (
         <Wrapper>
             <div
@@ -91,9 +88,6 @@ export default function MainHome({setPageIndex}:MainHome) {
                 <div css={[container]}>
                     <TodayChecklists />
                 </div>
-
-                {/* 👇 여기! 팝업은 여기서 조건부 렌더 */}
-                {PopupGoal && <AddGoal onCancel={clearPopupGoal} />}
             </div>
             <NavigationBar />
         </Wrapper>

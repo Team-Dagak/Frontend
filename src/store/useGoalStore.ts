@@ -1,37 +1,59 @@
 import { create } from "zustand";
 import { http } from "../lib/httpClient";
-import type { Goal } from "@/types/types";
+import type { CheckList, Goal } from "@/types/types";
 
-
-interface GoalState{
+interface GoalState {
     goals: Goal[];
 }
 
-interface GoalAction{
+interface GoalAction {
     fetchGoals: () => Promise<void>;
-    addGoal: (goalData:Goal) => Promise<void> ;
+    addGoal: (
+        goalname: string,
+        delayedGoal: boolean,
+        startdate: Date,
+        deadline: Date,
+        pinned: boolean,
+        checklists: CheckList,
+        hasReflection: boolean,
+        goalCategory: string
+    ) => Promise<void>;
     deleteGoal: (goalId: number) => Promise<void>;
-    updateGoal: (goalId: number, updateData:Goal) => Promise<void>;
+    updateGoal: (goalId: number, updateData: Goal) => Promise<void>;
 }
 
-type GoalStore = GoalState & GoalAction
+type GoalStore = GoalState & GoalAction;
 
 export const useGoalStore = create<GoalStore>((set) => ({
     goals: [],
 
     //목표 가져오기 Action
     fetchGoals: async () => {
-        const res = await http.get(
-            "/api/goals"
-        );
-        set({goals: res.data});
+        const res = await http.get("/api/goals");
+        set({ goals: res.data });
     },
 
     //목표 추가 Action
-    addGoal: async (goalData:Goal) => {
-        const res = await http.post(
-            "/goals",goalData
-        )
+    addGoal: async (
+        goalname: string,
+        delayedGoal: boolean,
+        startdate: Date,
+        deadline: Date,
+        pinned: boolean,
+        checklists: CheckList,
+        hasReflection: boolean,
+        goalCategory: string
+    ) => {
+        const res = await http.post("api/goals", {
+            goalname,
+            delayedGoal,
+            startdate,
+            deadline,
+            pinned,
+            checklists,
+            hasReflection,
+            goalCategory
+        });
         const savedGoal = res.data;
 
         set((state) => ({
@@ -40,11 +62,13 @@ export const useGoalStore = create<GoalStore>((set) => ({
     },
 
     //목표 수정 Action
-    updateGoal: async (goalId: number, updateData:Goal) => {
+    updateGoal: async (goalId: number, updateData: Goal) => {
         const res = await http.put(`api/goals/${goalId}`, updateData);
         const updateGoal = res.data;
         set((state) => ({
-            goals: state.goals.map((g) => g.goalId === goalId ? updateGoal: g),
+            goals: state.goals.map((g) =>
+                g.goalId === goalId ? updateGoal : g
+            ),
         }));
     },
 
@@ -53,8 +77,6 @@ export const useGoalStore = create<GoalStore>((set) => ({
         await http.delete(`api/goals/${goalId}`);
         set((state) => ({
             goals: state.goals.filter((g) => g.goalId !== goalId),
-        }))
-    }
-
-
-}))
+        }));
+    },
+}));

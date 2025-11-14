@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
+import ColorPickerPopup from "@/components/ui/colorPicker/colorPickerPopup";
 import DatePickerPopup from "@/components/ui/dateSelector/datePickerPopup";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useGoalStore } from "@/store/useGoalStore";
 
 const Wrapper = styled.div`
     width: 100vw;
@@ -169,7 +171,12 @@ const BottomButton = styled.button<{ disabled?: boolean }>`
 `;
 
 // 필요하면 외부에서 props로 제어 가능하게 인터페이스 뺄 수도 있음
-const PRESET_TAGS = ["공부 루틴", "건강 루틴", "취업 준비", "자율 루틴"];
+const PRESET_TAGS = [
+    { label: "공부 루틴", value: "STUDY" },
+    { label: "건강 루틴", value: "HEALTH" },
+    { label: "취업 준비", value: "JOB" },
+    { label: "자율 루틴", value: "FREE" },
+];
 
 interface BigGoalSettingProps {
     setPageIndex: (arg: number) => void;
@@ -182,7 +189,32 @@ export default function BigGoalSetting({ setPageIndex }: BigGoalSettingProps) {
     const [tagColor, setTagColor] = useState<string | null>(null);
 
     const [openDatePicker, setOpenDatePicker] = useState(false);
+    const [openColorPicker, setOpenColorPicker] = useState(false);
     const canSubmit = goalTitle.trim().length > 0 && selectedTag && endDate;
+
+    const { addGoal } = useGoalStore();
+
+    const resetState = () => {
+        setGoalTitle("");
+        setSelectedTag(null);
+        setEndDate(null);
+        setTagColor(null);
+    }
+
+    const onSubmit = () => {
+        addGoal(
+            goalTitle,
+            false,
+            new Date(),
+            endDate!,
+            false,
+            [],
+            false,
+            selectedTag!
+        );
+        resetState();
+        setPageIndex(0);
+    };
 
     return (
         <Wrapper>
@@ -213,15 +245,15 @@ export default function BigGoalSetting({ setPageIndex }: BigGoalSettingProps) {
                 <TagList>
                     {PRESET_TAGS.map((tag) => (
                         <TagChip
-                            key={tag}
-                            active={selectedTag === tag}
+                            key={tag.value}
+                            active={selectedTag === tag.value}
                             onClick={() =>
                                 setSelectedTag((prev) =>
-                                    prev === tag ? null : tag
+                                    prev === tag.value ? null : tag.value
                                 )
                             }
                         >
-                            #{tag}
+                            #{tag.label}
                         </TagChip>
                     ))}
                 </TagList>
@@ -248,13 +280,14 @@ export default function BigGoalSetting({ setPageIndex }: BigGoalSettingProps) {
                     <Row
                         type="button"
                         onClick={() => {
-                            // TODO: 색상 선택 팝업 열기
-                            // 예시: setTagColor("#ff6a21");
+                            setOpenColorPicker(true);
                         }}
                     >
                         <RowLabel>태그 컬러</RowLabel>
                         <RowPlaceholder>
-                            {tagColor ? "선택됨" : "태그 컬러를 선택해 주세요"}
+                            {tagColor
+                                ? tagColor.toUpperCase()
+                                : "태그 컬러를 선택해 주세요"}
                         </RowPlaceholder>
                         <RowRightBox colorBox={tagColor || undefined} />
                     </Row>
@@ -268,7 +301,7 @@ export default function BigGoalSetting({ setPageIndex }: BigGoalSettingProps) {
                     disabled={!canSubmit}
                     onClick={() => {
                         if (!canSubmit) return;
-                        // TODO: submit 로직
+                        onSubmit();
                     }}
                 >
                     큰 목표 등록하기
@@ -281,6 +314,15 @@ export default function BigGoalSetting({ setPageIndex }: BigGoalSettingProps) {
                     onConfirm={(date) => {
                         setEndDate(date);
                         setOpenDatePicker(false);
+                    }}
+                />
+
+                <ColorPickerPopup
+                    open={openColorPicker}
+                    onClose={() => setOpenColorPicker(false)}
+                    onConfirm={(color) => {
+                        setTagColor(color);
+                        setOpenColorPicker(false);
                     }}
                 />
             </Content>

@@ -13,6 +13,7 @@ export type Goal = {
     delayed?: boolean;
     recommendation?: string;
     checkList?: CheckList;
+    category: string;
 }
 
 export type CheckListItem = {

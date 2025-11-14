@@ -9,7 +9,6 @@ import { FaPlus } from "react-icons/fa";
 import { useChecklistStore } from "@/store/useChecklistStore";
 import { useGoalStore } from "@/store/useGoalStore";
 import { useFilterStore } from "@/store/useFilterStore";
-import type { CheckList } from "@/types/types";
 
 export default function TodayChecklists() {
     const checklists = useChecklistStore((state) => state.checklist);
@@ -24,7 +23,7 @@ export default function TodayChecklists() {
     const addChecklist = useChecklistStore((state) => state.addChecklist);
     const fetchChecklists = useChecklistStore((state) => state.fetchChecklists);
     const [selectedGoalName, setSelectedGoalName] = useState<
-        string | undefined
+        string
     >("");
 
     useEffect(() => {
@@ -38,30 +37,29 @@ export default function TodayChecklists() {
     };
 
     // 팝업에서 등록(확정)할 때
-    const handleConfirm = (checklistItems:CheckList) => {
+    const handleConfirm = (checklistName: string) => {
         console.log(
             "handleConfirm:",
-            checklistItems,
+            checklistName,
             "goalId:",
             selectedGoalId
         );
         // 각각 checklist 추가
-        checklistItems.forEach((item) => {
             addChecklist(
                 selectedGoalId,
-                item.checklistName// key 소문자 주의!
+                checklistName// key 소문자 주의!
             );
-        });
         setShowPopup(false);
         setSelectedGoalId(0);
     };
+
     return (
         <Container>
             <TitleBlock css={{ paddingBottom: "35px" }} />
             <FilterBar />
             {goals.map((goal) => {
                 const isVisible =
-                    activeFilter === "All" || activeFilter === goal.goalname;
+                    activeFilter === "All" || activeFilter === goal.category;
                 if (!isVisible) return null;
 
                 // checklist를 goalid로 필터
@@ -76,7 +74,7 @@ export default function TodayChecklists() {
                             <button
                                 onClick={() => {
                                     setSelectedGoalId(goal.goalId);
-                                    setSelectedGoalName(goal.goalname);
+                                    setSelectedGoalName(goal.goalname!);
                                     setShowPopup(true);
                                 }}
                             >
@@ -116,7 +114,7 @@ export default function TodayChecklists() {
             {/* ChecklistPopup은 한 번만! */}
             {showPopup && (
                 <OnlyCheckPopup
-                    goalName={selectedGoalName}
+                    goalname={selectedGoalName}
                     onConfirm={handleConfirm}
                     onCancel={handleCancel}
                 />

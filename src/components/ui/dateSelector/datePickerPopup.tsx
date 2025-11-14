@@ -71,7 +71,7 @@ const PickerWrapper = styled.div`
     gap: 12px;
 `;
 
-const ITEM_HEIGHT = 32;
+const ITEM_HEIGHT = 40;
 const VISIBLE_ROWS = 3;
 const PAD_COUNT = Math.floor(VISIBLE_ROWS / 2);
 
@@ -81,7 +81,7 @@ const Column = styled.div`
     overflow-y: auto;
     scroll-snap-type: y mandatory;
     text-align: center;
-    font-size: 18px;
+    font-size: 24px;
     color: #999;
 
     /* 스크롤바 제거 (모바일 느낌) */
