@@ -46,7 +46,7 @@ const App = () => {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <BrowserRouter basename="/Frontend">
+            <BrowserRouter>
                 <Global styles={globalStyle} />
                 <div className="app">
                     <Routes>
