@@ -71,7 +71,7 @@ export default function TodayChecklists() {
                     <ChecklistCategoryWrapper key={goal.goalId}>
                         <div css={TitleBar}>
                             <CategoryTitle># {goal.goalname}</CategoryTitle>
-                            <button
+                            <AddChecklist
                                 onClick={() => {
                                     setSelectedGoalId(goal.goalId);
                                     setSelectedGoalName(goal.goalname!);
@@ -79,7 +79,7 @@ export default function TodayChecklists() {
                                 }}
                             >
                                 <FaPlus />
-                            </button>
+                            </AddChecklist>
                         </div>
                         {myChecklists.length > 0 ? (
                             myChecklists.map((item) => (
@@ -122,6 +122,10 @@ export default function TodayChecklists() {
         </Container>
     );
 }
+
+const AddChecklist = styled.button`
+    background-color:transparent;
+`
 
 const Container = styled.div`
     background: #ffffff;
