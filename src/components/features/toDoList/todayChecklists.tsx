@@ -9,22 +9,20 @@ import { FaPlus } from "react-icons/fa";
 import { useChecklistStore } from "@/store/useChecklistStore";
 import { useGoalStore } from "@/store/useGoalStore";
 import { useFilterStore } from "@/store/useFilterStore";
+import SwipeToDeleteItem from "../swipeToDelete/swipeToDelete";
 
 export default function TodayChecklists() {
-    const checklists = useChecklistStore((state) => state.checklist);
+    const checklists  = useChecklistStore((state) => state.checklist);
+    const {deleteChecklist} = useChecklistStore();
     const goals = useGoalStore((state) => state.goals);
     const updateChecklist = useChecklistStore((state) => state.updateChecklist);
     const activeFilter = useFilterStore((state) => state.type);
     const [showPopup, setShowPopup] = useState(false);
     const fetchGoals = useGoalStore((state) => state.fetchGoals);
-    const [selectedGoalId, setSelectedGoalId] = useState<number | undefined>(
-        0
-    );
+    const [selectedGoalId, setSelectedGoalId] = useState<number | undefined>(0);
     const addChecklist = useChecklistStore((state) => state.addChecklist);
     const fetchChecklists = useChecklistStore((state) => state.fetchChecklists);
-    const [selectedGoalName, setSelectedGoalName] = useState<
-        string
-    >("");
+    const [selectedGoalName, setSelectedGoalName] = useState<string>("");
 
     useEffect(() => {
         fetchGoals();
@@ -38,17 +36,12 @@ export default function TodayChecklists() {
 
     // 팝업에서 등록(확정)할 때
     const handleConfirm = (checklistName: string) => {
-        console.log(
-            "handleConfirm:",
-            checklistName,
-            "goalId:",
-            selectedGoalId
-        );
+        console.log("handleConfirm:", checklistName, "goalId:", selectedGoalId);
         // 각각 checklist 추가
-            addChecklist(
-                selectedGoalId,
-                checklistName// key 소문자 주의!
-            );
+        addChecklist(
+            selectedGoalId,
+            checklistName // key 소문자 주의!
+        );
         setShowPopup(false);
         setSelectedGoalId(0);
     };
@@ -82,20 +75,33 @@ export default function TodayChecklists() {
                             </AddChecklist>
                         </div>
                         {myChecklists.length > 0 ? (
-                            myChecklists.map((item) => (
-                                <StyledChecklistItem>
-                                    <CheckBox
-                                        background={
-                                            item.clear ? "#4E6EF2" : "#1a1a1a"
-                                        }
-                                        onClick={() =>
-                                            updateChecklist(item.checklistId, item.checklistName, item.goalId, !item.clear , item.checkDate 
-                                            )
-                                        }
-                                        checked={item.clear}
-                                    />
-                                    <Label>{item.checklistName}</Label>
-                                </StyledChecklistItem>
+                            myChecklists.map((item, idx) => (
+                                <SwipeToDeleteItem
+                                key={item.checklistId}
+                                onDelete={() => deleteChecklist(item.checklistId)}
+                                checklistName={item.checklistName!}
+                                goalName={goal.goalname!}>
+                                    <StyledChecklistItem key={idx}>
+                                        <CheckBox
+                                            background={
+                                                item.clear
+                                                    ? "#4E6EF2"
+                                                    : "#1a1a1a"
+                                            }
+                                            onClick={() =>
+                                                updateChecklist(
+                                                    item.checklistId,
+                                                    item.checklistName,
+                                                    item.goalId,
+                                                    !item.clear,
+                                                    item.checkDate
+                                                )
+                                            }
+                                            checked={item.clear}
+                                        />
+                                        <Label>{item.checklistName}</Label>
+                                    </StyledChecklistItem>
+                                </SwipeToDeleteItem>
                             ))
                         ) : (
                             <div
@@ -124,8 +130,8 @@ export default function TodayChecklists() {
 }
 
 const AddChecklist = styled.button`
-    background-color:transparent;
-`
+    background-color: transparent;
+`;
 
 const Container = styled.div`
     background: #ffffff;
@@ -159,7 +165,10 @@ const Label = styled.div`
     color: #1a1a1a;
 `;
 
-const CheckBox = styled.div<{ background: string; checked: boolean | undefined}>`
+const CheckBox = styled.div<{
+    background: string;
+    checked: boolean | undefined;
+}>`
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 6px;

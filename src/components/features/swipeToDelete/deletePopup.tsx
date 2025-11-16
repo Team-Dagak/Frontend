@@ -1,56 +1,60 @@
 /** @jsxImportSource @emotion/react */
+import ModalPortal from "@/components/layout/modalPortal";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useDeletePopupStore } from "@/store/useDeletePopupStore";
 
 interface DeletePopupProps {
-  onConfirm: (payload: { goalId?: number; checkListId?: number }) => void;
+    goalName?: string;
+    checkListName?: string;
+    onConfirm: () => void;
+    onCancel: () => void;
 }
 
-export default function DeletePopup({ onConfirm }: DeletePopupProps) {
-  const isOpen = useDeletePopupStore((s) => s.isOpen);
-  const payload = useDeletePopupStore((s) => s.payload);
-  const close = useDeletePopupStore((s) => s.close);
+export default function DeletePopup({
+    goalName,
+    checkListName,
+    onConfirm,
+    onCancel,
+}: DeletePopupProps) {
+    const handleConfirm = () => {
+        onConfirm();
+    };
 
-  if (!isOpen || !payload) return null;
-
-  const { goalName, checkListName, goalId, checkListId } = payload;
-
-  const handleConfirm = () => {
-    onConfirm({ goalId, checkListId });
-    close();
-  };
-
-  return (
-    <div css={container}>
-      <div css={giveUp}>작은 목표를 정말 삭제할까요?</div>
-      <div css={explanation}> <b># {goalName}</b> 에 설정한 작은 목표&nbsp;<b>{checkListName}</b> 은/는 삭제되며 다시 복구할 수 없어요. </div>
-      <div css={choice}>
-        <Retry >다시 생각해볼래요</Retry>
-        <Retire onClick={handleConfirm}>네, 삭제할래요</Retire>
-      </div>    
-    </div>
-  );
+    return (
+        <ModalPortal>
+            <div css={container}>
+                <div css={giveUp}>작은 목표를 정말 삭제할까요?</div>
+                <div css={explanation}>
+                    <b># {goalName}</b> 에 설정한 작은 목표&nbsp;
+                    <b>{checkListName}</b> 은/는 삭제되며 다시 복구할 수 없어요.
+                </div>
+                <div css={choice}>
+                    <Retry onClick={onCancel}>다시 생각해볼래요</Retry>
+                    <Retire onClick={handleConfirm}>네, 삭제할래요</Retire>
+                </div>
+            </div>
+        </ModalPortal>
+    );
 }
 
 const container = css`
-  position: fixed;
-  z-index: 2000;
-  display: grid;
-  grid-template-rows: 1fr 2fr 1fr;
-  width: 361px;
-  height: 226px;
-  padding: 18px;
-  background-color: #ffffff10;
-  border-radius: 16px;
-  backdrop-filter: blur(15px);
-  outline-color: #1a1c20;
-  outline-style: solid;
-  outline-width: 1px;
+    position: fixed;
+    z-index: 2000;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    width: 361px;
+    height: 226px;
+    padding: 18px;
+    background-color: #ffffff10;
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    outline-color: #1a1c20;
+    outline-style: solid;
+    outline-width: 1px;
 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 const giveUp = css`
@@ -59,17 +63,16 @@ const giveUp = css`
     font-size: large;
     align-items: center;
     padding-left: 16px;
-
 `;
 
-const explanation = css`  
-  display: block;
-  font-size: small;
-  align-content: center;
-  padding: 0 16px;
-  width: 100%;
-  line-height: 1.5rem;
-  word-break: keep-all;
+const explanation = css`
+    display: block;
+    font-size: small;
+    align-content: center;
+    padding: 0 16px;
+    width: 100%;
+    line-height: 1.5rem;
+    word-break: keep-all;
 `;
 
 const choice = css`
@@ -79,18 +82,21 @@ const choice = css`
 `;
 
 const Retry = styled.button`
-  height: 40px;
-  border-radius: 12px;
-  background-color: white;
-  color: #1a1c20;
-  border: none;
-  
+    height: 40px;
+    border-radius: 12px;
+    background-color: white;
+    color: #1a1c20;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
 `;
 
 const Retire = styled.button`
-  height: 40px;
-  border-radius: 12px;
-  background-color: #1a1c20;
-  color: white;
-  border: none;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #1a1c20;
+    color: white;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
 `;
