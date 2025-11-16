@@ -203,14 +203,16 @@ export default function BigGoalSetting({ setPageIndex }: BigGoalSettingProps) {
 
     const onSubmit = () => {
         addGoal(
-            goalTitle,
-            false,
-            new Date(),
-            endDate!,
-            false,
-            [],
-            false,
-            selectedTag!
+            goalTitle,    // goalname
+            false,        // delayedGoal (기본 false)
+            new Date(),   // startdate (오늘)
+            endDate!,     // deadline
+            false,        // pinned
+            false,        // hasReflection (기본 false)
+            selectedTag!, // goalCategory
+            tagColor,    // colorCode 기본값 예시
+            "Circle",     // characterType 기본값 예시
+            false         // finished 기본 false
         );
         resetState();
         setPageIndex(0);

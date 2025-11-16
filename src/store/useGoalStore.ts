@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { http } from "../lib/httpClient";
-import type { CheckList, Goal } from "@/types/types";
+import type {  Goal } from "@/types/types";
 
 interface GoalState {
     goals: Goal[];
@@ -14,9 +14,11 @@ interface GoalAction {
         startdate: Date,
         deadline: Date,
         pinned: boolean,
-        checklists: CheckList,
         hasReflection: boolean,
-        goalCategory: string
+        goalCategory: string,
+        colorCode: string | null,
+        characterType: string,
+        finished: boolean
     ) => Promise<void>;
     deleteGoal: (goalId: number) => Promise<void>;
     updateGoal: (goalId: number, updateData: Goal) => Promise<void>;
@@ -40,9 +42,11 @@ export const useGoalStore = create<GoalStore>((set) => ({
         startdate: Date,
         deadline: Date,
         pinned: boolean,
-        checklists: CheckList,
         hasReflection: boolean,
-        goalCategory: string
+        goalCategory: string,
+        colorCode:string|null,
+        characterType:string,
+        finished:boolean
     ) => {
         const res = await http.post("api/goals", {
             goalname,
@@ -50,9 +54,11 @@ export const useGoalStore = create<GoalStore>((set) => ({
             startdate,
             deadline,
             pinned,
-            checklists,
             hasReflection,
-            goalCategory
+            goalCategory,
+            colorCode,
+            characterType,
+            finished,
         });
         const savedGoal = res.data;
 
