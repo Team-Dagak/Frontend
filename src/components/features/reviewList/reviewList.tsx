@@ -1,15 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { type ReviewValue } from "./reviewOptions";
+import { REVIEW_LABEL_MAP, type ReviewValue } from "./reviewOptions";
 import CircleChar from "@/assets/Chars/reviewCharCircle.png";
 
 interface ReviewItem {
     period: string; // "25.10.01~25.10.31"
     goalName: string;
-    review: {
-        label: string;
-        value: "PROUD" | "RELAXED" | "CHALLENGING";
-    } | null;
+    review: ReviewValue | null;
 }
 interface ReviewCardProps {
     Reviewitem: ReviewItem;
@@ -19,6 +16,8 @@ interface ReviewCardProps {
 
 export default function ReviewCard({ Reviewitem }: ReviewCardProps) {
     const { period, goalName, review } = Reviewitem;
+
+    const label = review ? REVIEW_LABEL_MAP[review] : null;
 
     return (
         <Container>
@@ -33,7 +32,7 @@ export default function ReviewCard({ Reviewitem }: ReviewCardProps) {
                 </div>
 
                 <OptionsWrapper>
-                    <OptionButton>{review!.label}</OptionButton>
+                    <OptionButton>{label}</OptionButton>
                 </OptionsWrapper>
             </CardWrapper>
         </Container>

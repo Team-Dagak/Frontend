@@ -7,7 +7,7 @@ export type User = {
 export type Goal = {
     goalId?: number;
     goalname?: string;
-    startDate?: string;
+    startdate?: string;
     deadline?:string;
     pinned?: boolean;
     delayed?: boolean;

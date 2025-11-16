@@ -2,33 +2,10 @@ import styled from "@emotion/styled";
 import GlassJar from "@/components/features/glassJar/glassJar";
 import NavigationBar from "@/components/ui/navigation/navigationBar";
 import ReviewCard from "@/components/features/reviewList/reviewList";
+import { useEffect } from "react";
+import { useReviewStore } from "@/store/useReviewStore";
 
-const reviewHistorySample = [
-    {
-        period: "25.10.01~25.10.31",
-        goalName: "큰일큰일큰일",
-        review: {
-            label: "뿌듯해요",
-            value: "PROUD",
-        },
-    },
-    {
-        period: "25.10.01~25.10.31",
-        goalName: "큰일큰일큰일",
-        review: {
-            label: "여유로웠어요",
-            value: "RELAXED",
-        },
-    },
-    {
-        period: "25.10.01~25.10.31",
-        goalName: "큰일큰일큰일",
-        review: {
-            label: "도전적이었어요",
-            value: "CHALLENGING",
-        },
-    },
-] as const;
+
 
 const PageWrapper = styled.div`
     width: 90vw;
@@ -59,9 +36,16 @@ const ReviewSection = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-`
+`;
 
 export default function YuriByeong() {
+
+    const { fetchReviews } = useReviewStore();
+    const reviews = useReviewStore((state) => state.reviews);
+    useEffect(() => {
+        fetchReviews();
+    },[fetchReviews]);
+
     return (
         <PageWrapper>
             <ContentWrapper>
@@ -69,10 +53,10 @@ export default function YuriByeong() {
                     <GlassJar />
                     <ReviewSection>
                         <h3>이번 회고 구경하기</h3>
-                        {reviewHistorySample.map((item, idx) => (
+                        {reviews.map((item, idx) => (
                             <ReviewCard
                                 key={idx}
-                                Reviewitem={item}
+                                Reviewitem={{period: item.startdate + "~" + item.deadline,goalName: item.goalname!, review: "PROUD"}}
                                 onSubmit={(value) => {
                                     console.log("server send:", value);
                                 }}

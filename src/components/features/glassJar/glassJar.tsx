@@ -2,10 +2,6 @@ import JarPhysicsLayer from "@/components/features/glassJar/JarPhysicsLayer";
 import styled from "@emotion/styled";
 import BottleBack from "@/assets/yuribyeongBack.png";
 import BottleFront from "@/assets/yuribyeongFront.png";
-import CircleChar from "@/assets/Chars/CircleChar.png";
-import DropChar from "@/assets/Chars/DropChar.png";
-import SquareChar from "@/assets/Chars/SquareChar.png";
-import StarChar from "@/assets/Chars/StarChar.png";
 
 const BottleFrame = styled.div`
     position: relative;
@@ -50,26 +46,12 @@ const BottleFrontImg = styled.img`
 `;
 
 export default function GlassJar() {
-    const completedChallenges = [
-        { id: "1", label: "첫 도전 완료", imageUrl: CircleChar },
-        { id: "2", label: "아침 7시 기상", imageUrl: DropChar },
-        { id: "3", label: "물 2L 마시기", imageUrl: SquareChar },
-        { id: "4", label: "운동 30분", imageUrl: StarChar },
-        { id: "5", label: "첫 도전 완료", imageUrl: CircleChar },
-        { id: "6", label: "아침 7시 기상", imageUrl: DropChar },
-        { id: "7", label: "물 2L 마시기", imageUrl: SquareChar },
-        { id: "8", label: "운동 30분", imageUrl: StarChar },
-        { id: "9", label: "운동 30분", imageUrl: StarChar },
-        { id: "10", label: "첫 도전 완료", imageUrl: CircleChar },
-        { id: "11", label: "아침 7시 기상", imageUrl: DropChar },
-        { id: "12", label: "물 2L 마시기", imageUrl: SquareChar },
-    ];
 
     return (
         <BottleFrame>
             <BottleBackImg src={BottleBack} />
             <PhysicsLayer>
-                <JarPhysicsLayer items={completedChallenges} />
+                <JarPhysicsLayer />
             </PhysicsLayer>
             <BottleFrontImg src={BottleFront} />
         </BottleFrame>

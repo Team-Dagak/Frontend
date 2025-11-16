@@ -2,17 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 import Matter from "matter-js";
 import styled from "@emotion/styled";
+import { useReviewStore } from "@/store/useReviewStore";
+import CircleChar from '@/assets/Chars/CircleChar.png';
 
-
-interface JarItem {
-    id: string;
-    label: string;
-    imageUrl: string;
-}
-
-interface JarPhysicsLayerProps {
-    items: JarItem[];
-}
 
 const ChipImage = styled.img`
     position: absolute;
@@ -23,7 +15,7 @@ const ChipImage = styled.img`
 `;
 
 interface ChipState {
-    id: string;
+    id: number;
     label: string;
     x: number;
     y: number;
@@ -31,9 +23,10 @@ interface ChipState {
     imageUrl: string;
 }
 
-export default function JarPhysicsLayer({ items }: JarPhysicsLayerProps) {
+export default function JarPhysicsLayer() {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [chipStates, setChipStates] = useState<ChipState[]>([]);
+    const reviews = useReviewStore((state) => state.reviews);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -84,7 +77,7 @@ export default function JarPhysicsLayer({ items }: JarPhysicsLayerProps) {
 
         // --- 칩들 생성 ---
         const chipRadius = 32;
-        const chipBodies = items.map((item, index) =>
+        const chipBodies = reviews.map((item, index) =>
             Bodies.circle(
                 width / 2 + (Math.random() - 0.5) * 40,
                 paddingTop + index * 5,
@@ -93,7 +86,7 @@ export default function JarPhysicsLayer({ items }: JarPhysicsLayerProps) {
                     restitution: 0.6,
                     friction: 0.1,
                     frictionAir: 0.02,
-                    label: item.id,
+                    label: item.goalId,
                 }
             )
         );
@@ -105,12 +98,12 @@ export default function JarPhysicsLayer({ items }: JarPhysicsLayerProps) {
 
         const update = () => {
             const nextStates: ChipState[] = chipBodies.map((body, i) => ({
-                id: items[i].id,
-                label: items[i].label,
+                id: reviews[i].goalId!,
+                label: reviews[i].goalname!,
                 x: body.position.x,
                 y: body.position.y,
                 angle: body.angle,
-                imageUrl: items[i].imageUrl,
+                imageUrl: CircleChar,
             }));
 
             setChipStates(nextStates);
@@ -127,7 +120,7 @@ export default function JarPhysicsLayer({ items }: JarPhysicsLayerProps) {
             Matter.World.clear(engine.world, false);
             Matter.Engine.clear(engine);
         };
-    }, [items]);
+    }, [reviews]);
 
     return (
         <div

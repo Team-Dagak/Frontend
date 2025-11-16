@@ -29,7 +29,7 @@ export const useGoalStore = create<GoalStore>((set) => ({
 
     //목표 가져오기 Action
     fetchGoals: async () => {
-        const res = await http.get("/api/goals");
+        const res = await http.get("/api/goals/unfinished");
         set({ goals: res.data });
     },
 
