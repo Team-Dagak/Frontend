@@ -3,7 +3,6 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { gray60, primary } from "@/styles/colors";
 import { keyframes } from "@emotion/react";
-import useSmartKeyboardOffset from "./useSmartKeyboardOffset";
 import ModalPortal from "@/components/layout/modalPortal";
 
 const slideUp = keyframes`
@@ -97,8 +96,6 @@ export default function OnlyCheckPopup({
     onCancel,
 }: OnlyCheckPopupProps) {
     const [text, setText] = useState("");
-    const offset = useSmartKeyboardOffset();
-    const adjusted = offset > 0 ? offset - 40 : 0;
 
     const handleRegister = () => {
         const trimmed = text.trim();
@@ -114,7 +111,7 @@ export default function OnlyCheckPopup({
         <ModalPortal>
             <Overlay onClick={onCancel}>
                 <AnimatedWrapper onClick={(e) => e.stopPropagation()}>
-                    <Container style={{ marginBottom: adjusted }}>
+                    <Container>
                         <TextBox
                             value={text}
                             onChange={(e) => setText(e.target.value)}
