@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
+import { useCalendarStore } from "@/store/useCalendarStore";
 import { css } from "@emotion/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type CalendarStatus = "none" | "done" | "todo";
 
@@ -16,10 +17,11 @@ export interface CalendarProps {
     onSelectDate?: (date: Date) => void;
 }
 
-const PRIMARY = "#ff6a00";
+const PRIMARY = "#FF8442";
+const PRIMARYCLICK = "#FF620D";
 const TEXT_MAIN = "#111111";
-const GRAY = "#d9d9e0";
-const DARK = "#111111";
+const PRIMARYBORDER = "#E6E7EA";
+const DARK = "#1A1C20";
 
 const headerTop = css`
     display: flex;
@@ -83,21 +85,30 @@ const grid = css`
 const dayCell = (
     inMonth: boolean,
     status: CalendarStatus,
-    isToday: boolean
+    isToday: boolean,
+    isSelected: boolean
 ) => {
     let bg = "#ffffff";
-    let color = TEXT_MAIN;
-    let border = `1px solid ${GRAY}`;
+    let color = isSelected ? PRIMARY : TEXT_MAIN;
+    let border = isSelected ? `1px solid ${PRIMARY} ` : `1px solid ${PRIMARYBORDER}`;
     let boxShadow = "none";
-
+    
     if (status === "done") {
         bg = DARK;
         color = "#ffffff";
         border = "none";
+        if (isSelected) {
+            border = `1px solid ${PRIMARY}`;
+            color = PRIMARY;
+        }
     } else if (status === "todo") {
         bg = "#f3f3f7";
         color = TEXT_MAIN;
         border = "none";
+        if (isSelected) {
+            border = `1px solid ${PRIMARY}`;
+            color = PRIMARY;
+        }
     }
 
     if (isToday) {
@@ -105,10 +116,15 @@ const dayCell = (
         color = "#ffffff";
         border = "none";
         boxShadow = "0 6px 12px rgba(255, 106, 0, 0.4)";
+        if (isSelected) {
+            bg = PRIMARYCLICK;
+            color = DARK;
+        }
     }
 
     if (!inMonth) {
-        color = "#c0c0c8";
+        color = "#757E8F";
+        bg = "#CACDD4";
     }
 
     return css`
@@ -120,7 +136,7 @@ const dayCell = (
         align-items: center;
         justify-content: center;
         font-size: 12px;
-        font-weight: 500;
+        font-weight: bold;
         background: ${bg};
         color: ${color};
         border: ${border};
@@ -159,14 +175,13 @@ function formatKey(d: Date) {
 }
 
 export default function Calendar({
-    doneDates = [],
-    todoDates = [],
     today: todayProp,
     className,
     onSelectDate,
 }: CalendarProps) {
     const today = todayProp ?? new Date();
     const [viewDate, setViewDate] = useState<Date>(today);
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
     const { weeks } = useMemo(() => {
         const y = viewDate.getFullYear();
@@ -187,14 +202,50 @@ export default function Calendar({
         return { weeks: weeksArr, month: m + 1, year: y };
     }, [viewDate]);
 
-    const doneSet = useMemo(() => new Set(doneDates), [doneDates]);
-    const todoSet = useMemo(() => new Set(todoDates), [todoDates]);
-
     const todayKey = formatKey(today);
     const viewMonth = viewDate.getMonth();
 
     const todayMonthNumber = today.getMonth() + 1;
     const todayDateNumber = today.getDate();
+
+    const { fetchCalendarInfo } = useCalendarStore();
+    const calendarInfo = useCalendarStore((state) => state.calendar);
+
+    const { doneSet, todoSet } = useMemo(() => {
+        const done = new Set<string>();
+        const todo = new Set<string>();
+
+        if (!calendarInfo || !calendarInfo.days) {
+            return { doneSet: done, todoSet: todo };
+        }
+
+        // 서버가 이미 해당 month만 주면 month 체크는 생략해도 됨
+        Object.entries(calendarInfo.days).forEach(([dateKey, info]) => {
+            // dateKey: "YYYY-MM-DD"
+            const { cleared, total } = info;
+
+            if (total <= 0) {
+                // 목표가 아예 없는 날이면 색 안 칠함
+                return;
+            }
+
+            if (cleared >= total) {
+                // 전부 완료 ⇒ done
+                done.add(dateKey);
+            } else {
+                // 일부만 완료 또는 전부 미완료 ⇒ todo
+                todo.add(dateKey);
+            }
+        });
+
+        return { doneSet: done, todoSet: todo };
+    }, [calendarInfo]);
+
+    useEffect(() => {
+        const year = viewDate.getFullYear();
+        const month = viewDate.getMonth() + 1;
+        fetchCalendarInfo(year, month);
+    }, [fetchCalendarInfo, viewDate]);
 
     const goPrev = () =>
         setViewDate(
@@ -248,8 +299,22 @@ export default function Calendar({
                     return (
                         <div
                             key={key}
-                            css={dayCell(inMonth, status, isToday)}
-                            onClick={() => inMonth && onSelectDate?.(d)}
+                            css={dayCell(
+                                inMonth,
+                                status,
+                                isToday,
+                                key === selectedDate
+                            )}
+                            onClick={() => {
+                                if (inMonth) {
+                                    if(selectedDate === key){
+                                        setSelectedDate(null);
+                                    } else {
+                                        setSelectedDate(key);
+                                    } // 선택된 날짜 저장
+                                    onSelectDate?.(d);
+                                }
+                            }}
                         >
                             {d.getDate()}
                         </div>
