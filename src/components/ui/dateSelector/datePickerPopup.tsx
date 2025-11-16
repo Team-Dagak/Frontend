@@ -4,6 +4,10 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
+const ITEM_HEIGHT = 40;
+const VISIBLE_ROWS = 3;
+const PAD_COUNT = Math.floor(VISIBLE_ROWS / 2);
+
 interface DatePickerPopupProps {
     open: boolean;
     initialDate?: Date | null;
@@ -49,7 +53,8 @@ const LabelLeft = styled.label`
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 14px;
+    font-size: 20px;
+    font-weight: bold;
     color: #222;
 `;
 
@@ -57,23 +62,35 @@ const CloseButton = styled.button`
     border-radius: 999px;
     padding: 4px 10px;
     border: 1px solid #ddd;
-    background: #f5f5f5;
-    font-size: 12px;
+    background: transparent;
+    font-size: 14px;
 `;
 
 const PickerWrapper = styled.div`
     margin: 8px 0 18px;
-    background: #fff;
+    background: transparent;
     border-radius: 12px;
     padding: 10px 0;
     display: flex;
     justify-content: center;
     gap: 12px;
-`;
+    position: relative;
 
-const ITEM_HEIGHT = 40;
-const VISIBLE_ROWS = 3;
-const PAD_COUNT = Math.floor(VISIBLE_ROWS / 2);
+    /* 가운데 선택 줄 배경 */
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        border-radius: 20px;
+        transform: translateY(-50%);
+        width: 100%;
+        height: ${ITEM_HEIGHT}px; /* 한 줄 높이와 동일 */
+        background: #ffffff; /* 가운데 줄 배경 */
+        pointer-events: none;
+        z-index: 0;
+    }
+`;
 
 const Column = styled.div`
     width: 70px;
@@ -83,6 +100,7 @@ const Column = styled.div`
     text-align: center;
     font-size: 24px;
     color: #999;
+    z-index: 1;
 
     /* 스크롤바 제거 (모바일 느낌) */
     &::-webkit-scrollbar {
@@ -94,7 +112,7 @@ const Item = styled.div<{ selected: boolean }>`
     height: ${ITEM_HEIGHT}px;
     line-height: ${ITEM_HEIGHT}px;
     scroll-snap-align: center;
-    color: ${({ selected }) => (selected ? "#000" : "#c4c4c4")};
+    color: ${({ selected }) => (selected ? "#000" : "#cacdd4")};
     font-weight: ${({ selected }) => (selected ? 600 : 400)};
 `;
 
