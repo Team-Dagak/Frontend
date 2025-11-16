@@ -148,7 +148,7 @@ const dayCell = (
 
 const legend = css`
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 12px;
     margin-top: 12px;
     font-size: 10px;
